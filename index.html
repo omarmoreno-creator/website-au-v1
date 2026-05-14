@@ -1,0 +1,2866 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlantis University</title>
+  <link rel="icon" href="assets/logo_mark.webp">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+/* ==========================================================================
+   Atlantis University — Colors & Type
+   Source of truth: ATLANTIS-TOOLKIT-2021.pdf (Graphic Guidelines)
+   ========================================================================== */
+
+/* --- Fonts -----------------------------------------------------------------
+   Official typography (self-hosted variable fonts in /fonts):
+     Oswald       — primary (titles + subtitles + body for print/brand)
+     Open Sans    — secondary (exclusive substitute for web)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Oswald';
+  src: url('fonts/Oswald-VariableFont_wght.ttf') format('truetype-variations'),
+       url('fonts/Oswald-VariableFont_wght.ttf') format('truetype');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('fonts/OpenSans-VariableFont_wdth_wght.ttf') format('truetype-variations'),
+       url('fonts/OpenSans-VariableFont_wdth_wght.ttf') format('truetype');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('fonts/OpenSans-Italic-VariableFont_wdth_wght.ttf') format('truetype-variations'),
+       url('fonts/OpenSans-Italic-VariableFont_wdth_wght.ttf') format('truetype');
+  font-weight: 300 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ===== BRAND COLOR — Primary ===== */
+  --au-red:           #ea1c24;   /* Atlantis Red — core brand */
+  --au-red-dark:      #b8141a;   /* darker red used in the "A" mark fold */
+  --au-black-pure:    #000000;
+  --au-black:         #231f20;   /* near-black, official neutral */
+  --au-white:         #ffffff;
+  --au-gray-50:       #f5f5f5;   /* official surface neutral */
+
+  /* ===== BRAND COLOR — School / Vertical accents (web only) ===== */
+  --au-blue:          #00abe9;   /* Business */
+  --au-green:         #30a049;   /* Health */
+  --au-orange:        #ea7924;   /* Engineering */
+  --au-yellow:        #fcb62b;   /* Education */
+  --au-purple:        #702e84;   /* Language Institute */
+  /* Computer Science shares the brand red */
+
+  /* ===== Derived neutrals (bridge tokens, kept close to #231f20 / #f5f5f5) */
+  --au-gray-100:      #ececec;
+  --au-gray-200:      #d9d9d9;
+  --au-gray-300:      #bfbfbf;
+  --au-gray-400:      #8a8a8a;
+  --au-gray-500:      #5a5659;
+  --au-gray-600:      #3d3a3b;
+  --au-gray-700:      #2a2728;
+  --au-gray-800:      #231f20;
+
+  /* ===== Semantic surfaces ===== */
+  --bg-page:          var(--au-white);
+  --bg-subtle:        var(--au-gray-50);
+  --bg-inverse:       var(--au-black);
+  --bg-brand:         var(--au-red);
+
+  /* ===== Semantic foreground ===== */
+  --fg-1:             var(--au-black);        /* primary text */
+  --fg-2:             var(--au-gray-500);     /* secondary text */
+  --fg-3:             var(--au-gray-400);     /* tertiary / meta */
+  --fg-on-brand:      var(--au-white);
+  --fg-on-inverse:    var(--au-white);
+  --fg-brand:         var(--au-red);
+
+  /* ===== Semantic borders ===== */
+  --border-subtle:    var(--au-gray-100);
+  --border-default:   var(--au-gray-200);
+  --border-strong:    var(--au-black);
+
+  /* ===== Status (derived from school palette) ===== */
+  --status-success:   var(--au-green);
+  --status-info:      var(--au-blue);
+  --status-warning:   var(--au-yellow);
+  --status-danger:    var(--au-red);
+
+  /* ==========================================================================
+     Typography
+     ========================================================================== */
+  --font-display:     'Oswald', 'Arial Narrow', 'Helvetica Neue Condensed', sans-serif;
+  --font-body:        'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono:        ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Type scale — display (Oswald, condensed, UPPERCASE by default) */
+  --fs-display-xl:    clamp(3rem, 6vw, 5.5rem);    /* hero */
+  --fs-display-lg:    clamp(2.25rem, 4.5vw, 4rem); /* section hero */
+  --fs-display-md:    2.5rem;                     /* h1 */
+  --fs-display-sm:    2rem;                       /* h2 */
+  --fs-display-xs:    1.5rem;                     /* h3 */
+  --fs-eyebrow:       0.75rem;                    /* eyebrow labels */
+
+  /* Type scale — body (Open Sans) */
+  --fs-body-lg:       1.125rem;
+  --fs-body:          1rem;
+  --fs-body-sm:       0.875rem;
+  --fs-body-xs:       0.75rem;
+
+  /* Line heights */
+  --lh-tight:         1.05;
+  --lh-snug:          1.2;
+  --lh-normal:        1.5;
+  --lh-loose:         1.7;
+
+  /* Letter-spacing */
+  --ls-tight:         -0.01em;
+  --ls-normal:        0;
+  --ls-wide:          0.04em;
+  --ls-wider:         0.08em;   /* used on eyebrows / all-caps labels */
+
+  /* Weights */
+  --fw-regular:       400;
+  --fw-medium:        500;
+  --fw-semibold:      600;
+  --fw-bold:          700;
+
+  /* ==========================================================================
+     Spacing / radii / shadows / motion
+     ========================================================================== */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  --radius-none:   0;
+  --radius-sm:     2px;
+  --radius-md:     4px;   /* default — cards, buttons */
+  --radius-lg:     8px;
+  --radius-pill:   999px;
+
+  /* Shadows — intentionally sparse. The toolkit leans flat / print-feel. */
+  --shadow-sm:   0 1px 2px rgba(35,31,32,.06);
+  --shadow-md:   0 6px 18px rgba(35,31,32,.10);
+  --shadow-lg:   0 18px 40px rgba(35,31,32,.14);
+  --shadow-red:  0 10px 28px rgba(234,28,36,.28);
+
+  /* Motion — calm, editorial. No bounces. */
+  --ease-standard: cubic-bezier(.2, .7, .2, 1);
+  --ease-out:      cubic-bezier(.22, 1, .36, 1);
+  --dur-fast:      120ms;
+  --dur-med:       200ms;
+  --dur-slow:      320ms;
+
+  /* Layout */
+  --max-content:   1200px;
+  --max-prose:     68ch;
+}
+
+/* ==========================================================================
+   Semantic element styles
+   ========================================================================== */
+html { color: var(--fg-1); background: var(--bg-page); }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display / headings — Oswald, uppercase, condensed rhythm */
+.au-display,
+h1, h2, h3, .au-h1, .au-h2, .au-h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+  text-transform: uppercase;
+  color: var(--fg-1);
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1, .au-h1 { font-size: var(--fs-display-md); }
+h2, .au-h2 { font-size: var(--fs-display-sm); }
+h3, .au-h3 { font-size: var(--fs-display-xs); }
+
+.au-hero-xl { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: var(--fs-display-xl); line-height: var(--lh-tight); }
+.au-hero-lg { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: var(--fs-display-lg); line-height: var(--lh-tight); }
+
+/* Eyebrows and tags — Open Sans, uppercase, wide tracking */
+.au-eyebrow {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--fg-brand);
+}
+
+/* Body */
+p, .au-p {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-loose);
+  color: var(--fg-1);
+  max-width: var(--max-prose);
+  margin: 0 0 var(--space-4) 0;
+  text-wrap: pretty;
+}
+
+.au-lede {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}
+
+.au-small { font-size: var(--fs-body-sm); color: var(--fg-2); }
+.au-meta  { font-size: var(--fs-body-xs); color: var(--fg-3); letter-spacing: var(--ls-wide); text-transform: uppercase; }
+
+a { color: var(--fg-brand); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+code, kbd, pre { font-family: var(--font-mono); font-size: 0.925em; }
+
+/* Horizontal rule — red bar motif from the toolkit */
+.au-rule {
+  height: 4px;
+  width: 56px;
+  background: var(--au-red);
+  border: 0;
+  margin: var(--space-4) 0 var(--space-5);
+}
+
+/* Atlantis University — site-level styles
+   Layered on top of colors_and_type.css */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: #fff; }
+
+/* === Buttons ============================================================ */
+.au-btn {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 160ms cubic-bezier(.2,.7,.2,1), color 160ms, transform 160ms, box-shadow 160ms;
+  line-height: 1;
+}
+.au-btn-primary { background: #ea1c24; color: #fff; box-shadow: 0 8px 24px rgba(234,28,36,.28); }
+.au-btn-primary:hover { background: #b8141a; text-decoration: none; }
+.au-btn-primary:active { background: #981013; box-shadow: none; }
+
+.au-btn-ghost-light { background: transparent; color: #fff; border: 2px solid #fff; padding: 12px 22px; }
+.au-btn-ghost-light:hover { background: #fff; color: #231f20; text-decoration: none; }
+
+.au-btn-ghost-dark { background: transparent; color: #231f20; border: 2px solid #231f20; padding: 12px 22px; }
+.au-btn-ghost-dark:hover { background: #231f20; color: #fff; text-decoration: none; }
+
+.au-btn-inverse { background: #fff; color: #ea1c24; }
+.au-btn-inverse:hover { background: #f5f5f5; text-decoration: none; }
+
+.au-btn-dark { background: #231f20; color: #fff; }
+.au-btn-dark:hover { background: #3d3a3b; text-decoration: none; }
+
+/* === Section primitives ================================================= */
+.au-section { padding: 96px 0; }
+.au-section-sm { padding: 64px 0; }
+.au-container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* Section interstitial — full-bleed red block */
+.au-red-section { background: #ea1c24; color: #fff; padding: 96px 0; }
+.au-red-section .au-eyebrow { color: #fff; }
+.au-red-section h1, .au-red-section h2, .au-red-section h3 { color: #fff; }
+
+.au-dark-section { background: #231f20; color: #f5f5f5; padding: 96px 0; }
+.au-dark-section .au-eyebrow { color: #ea1c24; }
+.au-dark-section h1, .au-dark-section h2, .au-dark-section h3 { color: #fff; }
+
+/* Eyebrow with leading bar */
+.au-bar-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #ea1c24; }
+.au-bar-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 3px; background: #ea1c24; }
+
+/* === Cards ============================================================== */
+.au-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 4px;
+  transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms, border-color 200ms;
+}
+.au-card:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(35,31,32,.10); }
+
+/* === Form inputs ======================================================== */
+.au-input, .au-select, .au-textarea {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #fff;
+  color: #231f20;
+  width: 100%;
+  outline: none;
+  transition: border-color 160ms, box-shadow 160ms;
+}
+.au-input:focus, .au-select:focus, .au-textarea:focus {
+  border-color: #ea1c24;
+  box-shadow: 0 0 0 3px rgba(234,28,36,.12);
+}
+.au-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #5a5659;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* === Animations ========================================================= */
+@keyframes au-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.au-anim { animation: au-fade-up 420ms cubic-bezier(.2,.7,.2,1) both; }
+
+/* === Utility ============================================================ */
+.au-rule-white { height: 4px; width: 56px; background: #fff; border: 0; margin: 16px 0 24px; }
+.au-rule-thick { height: 4px; width: 80px; background: #ea1c24; border: 0; margin: 14px 0 22px; }
+
+/* Scrollbar in interactive lists */
+.au-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+.au-scroll::-webkit-scrollbar-thumb { background: #d9d9d9; border-radius: 999px; }
+
+/* Tag pill */
+.au-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  color: #231f20;
+}
+.au-tag-red { background: #ea1c24; color: #fff; }
+.au-tag-outline { background: transparent; border: 1px solid #d9d9d9; }
+
+/* Big stat */
+.au-stat-num {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 80px;
+  line-height: .9;
+  color: #ea1c24;
+  letter-spacing: -0.01em;
+}
+
+/* News card image placeholder */
+.au-img-bw { filter: grayscale(1) contrast(1.05); }
+
+/* Hide scrollbar on horizontal rails */
+.au-rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
+.au-rail > * { flex: 0 0 auto; scroll-snap-align: start; }
+
+/* Selection */
+::selection { background: #ea1c24; color: #fff; }
+
+/* === Header responsive ================================================== */
+.au-hamburger { display: none; }
+.au-mobile-drawer { display: none; }
+
+@media (max-width: 1080px) {
+  .au-nav-desktop { display: none !important; }
+  .au-hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #ececec;
+    background: #fff;
+    border-radius: 999px;
+    cursor: pointer;
+    color: #231f20;
+  }
+  .au-apply-cta {
+    padding: 10px 14px !important;
+    font-size: 12px !important;
+  }
+  .au-utility-bar { display: none !important; }
+}
+
+@media (max-width: 720px) {
+  .au-apply-cta { padding: 8px 12px !important; font-size: 11px !important; }
+}
+
+.au-mobile-drawer.open {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #ececec;
+  border-bottom: 4px solid #ea1c24;
+  box-shadow: 0 18px 40px rgba(35,31,32,.10);
+  animation: au-fade-up 180ms cubic-bezier(.2,.7,.2,1) both;
+  z-index: 60;
+}
+.au-mobile-drawer ul { list-style: none; margin: 0; padding: 12px 0; }
+.au-mobile-drawer li a {
+  display: block;
+  padding: 14px 28px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #231f20;
+  text-decoration: none;
+  border-bottom: 1px solid #f5f5f5;
+}
+.au-mobile-drawer li a:hover { background: #f5f5f5; color: #ea1c24; }
+.au-mobile-drawer li.active a { color: #ea1c24; border-left: 4px solid #ea1c24; padding-left: 24px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+// data.jsx — Shared site data (programs, schools, copy fragments)
+
+const SCHOOLS = {
+  business:    { name: 'Business',           color: '#00abe9', tag: 'School of Business' },
+  health:      { name: 'Health',             color: '#30a049', tag: 'School of Health' },
+  engineering: { name: 'Engineering',        color: '#ea7924', tag: 'School of Engineering' },
+  education:   { name: 'Education',          color: '#fcb62b', tag: 'School of Education' },
+  language:    { name: 'Language Institute', color: '#702e84', tag: 'Language Institute' },
+  cs:          { name: 'Computer Science',   color: '#ea1c24', tag: 'School of Computer Science' },
+};
+
+const PROGRAMS = {
+  mba: {
+    id: 'mba',
+    school: 'business',
+    name: 'Master of Business Administration',
+    short: 'MBA',
+    tagline: 'Lead markets. Build companies.',
+    length: '18 months',
+    credits: '36 credits',
+    format: ['On campus', 'Online', 'Hybrid'],
+    next: 'September 9, 2026',
+    color: '#00abe9',
+    blurb: "An MBA built for operators. You'll sit beside founders, controllers, and product leads — and graduate ready to make calls that move a balance sheet.",
+    outcomes: [
+      { label: 'Avg. starting salary', value: '$118,400' },
+      { label: 'Hired within 6 months', value: '94%' },
+      { label: 'Promoted within 2 years', value: '71%' },
+    ],
+    courses: [
+      { code: 'BUS-501', name: 'Strategic Decision-Making', term: 'Fall · Yr 1' },
+      { code: 'FIN-510', name: 'Corporate Finance', term: 'Fall · Yr 1' },
+      { code: 'OPS-520', name: 'Operations & Supply Chain', term: 'Fall · Yr 1' },
+      { code: 'MKT-530', name: 'Brand & Growth Marketing', term: 'Spring · Yr 1' },
+      { code: 'LDR-540', name: 'Leading Cross-Cultural Teams', term: 'Spring · Yr 1' },
+      { code: 'BUS-550', name: 'Business Analytics with Python', term: 'Spring · Yr 1' },
+      { code: 'ENT-610', name: 'Entrepreneurship Studio', term: 'Fall · Yr 2' },
+      { code: 'BUS-690', name: 'Capstone — Live Client Project', term: 'Spring · Yr 2' },
+    ],
+    faculty: [
+      { name: 'Dr. Carmen Ocasio', role: 'Chair · Strategy', bio: '15 years in management consulting; advises three Fortune 500 boards.' },
+      { name: 'Prof. James Reyes', role: 'Finance', bio: 'Ex-CFO at two Series B startups; leads our corporate finance studio.' },
+    ],
+    employers: ['Royal Caribbean', 'AmEx', 'Visa', 'Lennar', 'Carnival', 'Ryder'],
+  },
+  ai: {
+    id: 'ai',
+    school: 'cs',
+    name: 'Master of Science in Artificial Intelligence',
+    short: 'MS in AI',
+    tagline: 'Ship intelligent systems that work in production.',
+    length: '20 months',
+    credits: '40 credits',
+    format: ['On campus', 'Online'],
+    next: 'September 9, 2026',
+    color: '#ea1c24',
+    blurb: "An AI degree that demands you ship. You'll build, evaluate, and deploy production-grade ML systems — not toy notebooks. Capstone is a paid placement with a Miami industry partner.",
+    outcomes: [
+      { label: 'Avg. starting salary', value: '$142,800' },
+      { label: 'Hired within 6 months', value: '97%' },
+      { label: 'With AI/ML title', value: '88%' },
+    ],
+    courses: [
+      { code: 'CS-501', name: 'Foundations of Machine Learning', term: 'Fall · Yr 1' },
+      { code: 'CS-510', name: 'Deep Learning Systems', term: 'Fall · Yr 1' },
+      { code: 'CS-520', name: 'Applied Linear Algebra', term: 'Fall · Yr 1' },
+      { code: 'CS-530', name: 'Natural Language Processing', term: 'Spring · Yr 1' },
+      { code: 'CS-540', name: 'Computer Vision', term: 'Spring · Yr 1' },
+      { code: 'CS-550', name: 'MLOps & Production AI', term: 'Spring · Yr 1' },
+      { code: 'CS-610', name: 'AI Ethics & Governance', term: 'Fall · Yr 2' },
+      { code: 'CS-620', name: 'Reinforcement Learning', term: 'Fall · Yr 2' },
+      { code: 'CS-690', name: 'Capstone — Industry Placement', term: 'Spring · Yr 2' },
+    ],
+    faculty: [
+      { name: 'Dr. Marco Velasquez', role: 'Director · CS', bio: 'Ex-research engineer at a top AI lab; published in NeurIPS, ICML.' },
+      { name: 'Dr. Priya Anand', role: 'NLP Lead', bio: 'Built production search at a Fortune 50; now teaches LLM systems at AU.' },
+    ],
+    employers: ['Magic Leap', 'Visa', 'Royal Caribbean', 'NextEra', 'Boston Dynamics'],
+  },
+  education: {
+    id: 'education',
+    school: 'education',
+    name: 'Master of Education',
+    short: 'M.Ed.',
+    tagline: 'Teach like a non-conformist.',
+    length: '16 months',
+    credits: '34 credits',
+    format: ['On campus', 'Online', 'Hybrid'],
+    next: 'September 9, 2026',
+    color: '#fcb62b',
+    blurb: "An M.Ed. that questions everything — from how grades are assigned to who classrooms are designed for. You'll graduate licensed, networked, and unafraid to redesign a school from the inside.",
+    outcomes: [
+      { label: 'Licensure pass rate', value: '99%' },
+      { label: 'Placed in classrooms', value: '96%' },
+      { label: 'Become lead teachers <3y', value: '63%' },
+    ],
+    courses: [
+      { code: 'EDU-501', name: 'Learning Sciences', term: 'Fall · Yr 1' },
+      { code: 'EDU-510', name: 'Curriculum Design', term: 'Fall · Yr 1' },
+      { code: 'EDU-520', name: 'Equity & Inclusion in Schools', term: 'Fall · Yr 1' },
+      { code: 'EDU-530', name: 'Assessment, Reimagined', term: 'Spring · Yr 1' },
+      { code: 'EDU-540', name: 'Bilingual Classroom Practice', term: 'Spring · Yr 1' },
+      { code: 'EDU-550', name: 'Edtech in the Classroom', term: 'Spring · Yr 1' },
+      { code: 'EDU-610', name: 'School Leadership', term: 'Fall · Yr 2' },
+      { code: 'EDU-690', name: 'Capstone — Classroom Residency', term: 'Spring · Yr 2' },
+    ],
+    faculty: [
+      { name: 'Dr. Lourdes Bermúdez', role: 'Chair · Education', bio: 'Former school district superintendent; 20 years in classroom redesign.' },
+      { name: 'Prof. Daniel Park', role: 'Bilingual Education', bio: 'Designed dual-language curricula in three states.' },
+    ],
+    employers: ['Miami-Dade Public Schools', 'KIPP', 'Teach For America', 'Achieve Miami'],
+  },
+};
+
+const NEWS = [
+  { tag: 'Research', date: 'Apr 22, 2026', title: 'AU AI lab partners with Jackson Health on diagnostic ML pipeline', img: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80' },
+  { tag: 'Campus',   date: 'Apr 19, 2026', title: 'University Park breaks ground on new bilingual learning commons', img: 'https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80' },
+  { tag: 'Alumni',   date: 'Apr 14, 2026', title: '"They taught me to ship" — class of \'24 alumni on their first 18 months', img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80' },
+  { tag: 'Faculty',  date: 'Apr 09, 2026', title: 'Dr. Velasquez named to Florida AI Council', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80' },
+];
+
+const EVENTS = [
+  { date: 'May 03', day: 'Sat', title: 'Spring Open House — University Park', meta: '10:00 AM · In person' },
+  { date: 'May 11', day: 'Sun', title: 'Virtual Info Session: MS in AI', meta: '6:00 PM ET · Zoom' },
+  { date: 'May 18', day: 'Sun', title: 'Bilingual M.Ed. Coffee Chat', meta: '11:00 AM · Online' },
+  { date: 'Jun 02', day: 'Mon', title: 'MBA Admissions Webinar', meta: '7:00 PM ET · Zoom' },
+];
+
+window.SCHOOLS = SCHOOLS;
+window.PROGRAMS = PROGRAMS;
+window.NEWS = NEWS;
+window.EVENTS = EVENTS;
+  </script>
+
+  <script type="text/babel">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel"
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+  </script>
+
+  <script type="text/babel">
+// Shell.jsx — Top utility bar, main nav, mega-menu for Programs, and Footer.
+
+const { useState: useStateShell, useEffect: useEffectShell, useRef: useRefShell } = React;
+
+// === Atlantis "A" mark glyph (inline SVG) ===
+function AMark({ size = 28, color = '#ea1c24' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M8 56 L32 6 L56 56 L46 56 L40 44 L24 44 L18 56 Z" fill={color} />
+      <path d="M28 36 L36 36 L32 22 Z" fill="#fff" />
+      <path d="M40 44 L46 56 L36 56 L32 48 Z" fill="#b8141a" />
+    </svg>
+  );
+}
+
+// === Header =================================================================
+function Header({ route, go, search, setSearch }) {
+  const [megaOpen, setMegaOpen] = useStateShell(false);
+  const [mobileOpen, setMobileOpen] = useStateShell(false);
+  const closeTimer = useRefShell(null);
+
+  const openMega = () => { clearTimeout(closeTimer.current); setMegaOpen(true); };
+  const closeMega = () => { closeTimer.current = setTimeout(() => setMegaOpen(false), 120); };
+
+  const navItems = [
+    { id: 'programs', label: 'Programs', mega: true },
+    { id: 'admissions', label: 'Admissions' },
+    { id: 'tuition', label: 'Tuition' },
+    { id: 'why', label: 'Why Atlantis' },
+    { id: 'flex', label: 'Study' },
+    { id: 'careers', label: 'Careers' },
+    { id: 'international', label: 'International' },
+  ];
+
+  const isActive = (id) => {
+    if (id === 'programs') return route === 'programs' || route.startsWith('program:');
+    return route === id;
+  };
+
+  return (
+    <header style={shellStyles.header}>
+      {/* Utility bar */}
+      <div className="au-utility-bar" style={shellStyles.utility}>
+        <div style={shellStyles.utilityInner}>
+          <div style={shellStyles.utilityLeft}>
+            <span style={{ opacity: .7 }}>University Park · Miami Health District</span>
+          </div>
+          <div style={shellStyles.utilityRight}>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('international'); }} style={shellStyles.utilLink}>Global campus</a>
+            <span style={shellStyles.utilDivider} />
+            <a href="#" style={shellStyles.utilLink}>Student portal</a>
+            <span style={shellStyles.utilDivider} />
+            <a href="#" style={shellStyles.utilLink}>Request info</a>
+            <span style={shellStyles.utilDivider} />
+            <a href="#" style={shellStyles.utilLink}>EN · ES</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main nav */}
+      <div style={shellStyles.mainBar}>
+        <div style={shellStyles.mainInner}>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('home'); }} style={shellStyles.brand}>
+            <img src="assets/logo_horizontal.webp" alt="Atlantis University" style={{ height: 32 }} />
+          </a>
+
+          <nav className="au-nav-desktop" style={shellStyles.nav}>
+            {navItems.map((it) => (
+              <div
+                key={it.id}
+                style={shellStyles.navItem}
+                onMouseEnter={it.mega ? openMega : undefined}
+                onMouseLeave={it.mega ? closeMega : undefined}
+              >
+                <a
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); if (!it.mega) go(it.id); else go('programs'); }}
+                  style={{
+                    ...shellStyles.navLink,
+                    color: isActive(it.id) ? '#ea1c24' : '#231f20',
+                    borderBottomColor: isActive(it.id) ? '#ea1c24' : 'transparent',
+                  }}
+                >
+                  {it.label}
+                  {it.mega && <span style={{ marginLeft: 6, fontSize: 9, opacity: .6 }}>▼</span>}
+                </a>
+              </div>
+            ))}
+          </nav>
+
+          <div style={shellStyles.actions}>
+            <button
+              aria-label="Search"
+              style={shellStyles.iconBtn}
+              onClick={() => go('search')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); go('apply'); }}
+              className="au-btn au-btn-primary au-apply-cta"
+              style={{ marginLeft: 4, whiteSpace: 'nowrap' }}
+            >
+              Apply now →
+            </a>
+            <button
+              aria-label="Menu"
+              className="au-hamburger"
+              onClick={() => setMobileOpen(o => !o)}
+              style={{ marginLeft: 4 }}
+            >
+              {mobileOpen
+                ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+                : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M4 7 H20 M4 12 H20 M4 17 H20"/></svg>}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile drawer */}
+        <div className={'au-mobile-drawer' + (mobileOpen ? ' open' : '')}>
+          <ul>
+            {navItems.map((it) => (
+              <li key={it.id} className={isActive(it.id) ? 'active' : ''}>
+                <a
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); setMobileOpen(false); go(it.mega ? 'programs' : it.id); }}
+                >{it.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Mega menu — Programs */}
+        {megaOpen && (
+          <div
+            onMouseEnter={openMega}
+            onMouseLeave={closeMega}
+            style={shellStyles.mega}
+          >
+            <div style={shellStyles.megaInner}>
+              <div style={shellStyles.megaCols}>
+                <div>
+                  <div style={shellStyles.megaEyebrow}>Featured programs</div>
+                  <div style={shellStyles.megaList}>
+                    <MegaProgram color="#00abe9" name="Master of Business Administration" tag="MBA · 18 mo" id="mba" go={go} />
+                    <MegaProgram color="#ea1c24" name="MS in Artificial Intelligence" tag="MS in AI · 20 mo" id="ai" go={go} />
+                    <MegaProgram color="#fcb62b" name="Master of Education" tag="M.Ed. · 16 mo" id="education" go={go} />
+                  </div>
+                </div>
+                <div>
+                  <div style={shellStyles.megaEyebrow}>By school</div>
+                  <ul style={shellStyles.megaSchools}>
+                    {Object.entries(window.SCHOOLS).map(([id, s]) => (
+                      <li key={id} style={shellStyles.megaSchoolLi}>
+                        <a href="#" onClick={(e) => { e.preventDefault(); go('programs'); setMegaOpen(false); }} style={shellStyles.megaSchoolLink}>
+                          <span style={{ ...shellStyles.megaSchoolDot, background: s.color }} />
+                          School of {s.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={shellStyles.megaPromo}>
+                  <div style={shellStyles.megaPromoEyebrow}>Try it on</div>
+                  <div style={shellStyles.megaPromoTitle}>Build your study plan in 3 minutes.</div>
+                  <a href="#" onClick={(e) => { e.preventDefault(); go('flex'); setMegaOpen(false); }} className="au-btn au-btn-inverse" style={{ marginTop: 18 }}>Open FLEX builder →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}
+
+function MegaProgram({ color, name, tag, id, go }) {
+  return (
+    <a
+      href="#"
+      onClick={(e) => { e.preventDefault(); go('program:' + id); }}
+      style={shellStyles.megaProgram}
+      onMouseEnter={(e) => { e.currentTarget.style.background = '#f5f5f5'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+    >
+      <div style={{ ...shellStyles.megaProgramBar, background: color }} />
+      <div>
+        <div style={shellStyles.megaProgramTag}>{tag}</div>
+        <div style={shellStyles.megaProgramName}>{name}</div>
+      </div>
+      <div style={{ marginLeft: 'auto', color: '#231f20' }}>→</div>
+    </a>
+  );
+}
+
+// === Footer =================================================================
+function Footer({ go }) {
+  const cols = [
+    { h: 'Programs', links: [['MBA','program:mba'],['MS in AI','program:ai'],['M.Ed.','program:education'],['All programs','programs']] },
+    { h: 'Admissions', links: [['Apply now','apply'],['Admissions overview','admissions'],['Tuition & aid','tuition'],['International','international']] },
+    { h: 'Experience', links: [['Why Atlantis','why'],['Study Options (FLEX)','flex'],['Career Outcomes','careers'],['Global campus','international']] },
+    { h: 'Campus', links: [['University Park',null],['Miami Health District',null],['Visit',null],['Events',null]] },
+  ];
+  return (
+    <footer style={shellStyles.footer}>
+      <div style={shellStyles.footerInner}>
+        <div style={shellStyles.footerTop}>
+          <div>
+            <img src="assets/logo_horizontal.webp" alt="Atlantis University" style={{ height: 32, filter: 'brightness(0) invert(1)' }} />
+            <div style={shellStyles.footerBlurb}>University Park Campus · Miami Health District. Online everywhere else.</div>
+            <div style={shellStyles.footerRule} />
+            <div style={shellStyles.footerMotto}>Home of the<br/>non-conformists.</div>
+            <div style={shellStyles.footerSocial}>
+              {['Instagram','LinkedIn','YouTube','TikTok'].map(s => (
+                <a key={s} href="#" style={shellStyles.footerSocialLink}>{s}</a>
+              ))}
+            </div>
+          </div>
+          <div style={shellStyles.footerCols}>
+            {cols.map((c, i) => (
+              <div key={i}>
+                <div style={shellStyles.footerColHead}>{c.h}</div>
+                <ul style={shellStyles.footerList}>
+                  {c.links.map(([label, target]) => (
+                    <li key={label} style={shellStyles.footerLi}>
+                      <a
+                        href="#"
+                        onClick={(e) => { e.preventDefault(); if (target) go(target); }}
+                        style={shellStyles.footerLink}
+                      >{label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={shellStyles.footerLegal}>
+          <div>© 2026 Atlantis University. All rights reserved. Accredited by ACICS.</div>
+          <div style={{ display: 'flex', gap: 18 }}>
+            <a style={shellStyles.legalLink} href="#">Privacy</a>
+            <a style={shellStyles.legalLink} href="#">Accessibility</a>
+            <a style={shellStyles.legalLink} href="#">Consumer info</a>
+            <a style={shellStyles.legalLink} href="#">Title IX</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+const shellStyles = {
+  header: { fontFamily: "'Open Sans', sans-serif", background: '#fff', position: 'sticky', top: 0, zIndex: 50, borderBottom: '1px solid #ececec' },
+  utility: { background: '#231f20', color: '#d9d9d9', fontSize: 12 },
+  utilityInner: { maxWidth: 1280, margin: '0 auto', padding: '8px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+  utilityLeft: { fontSize: 12, letterSpacing: '.04em' },
+  utilityRight: { display: 'flex', gap: 14, alignItems: 'center' },
+  utilLink: { color: '#d9d9d9', textDecoration: 'none', fontSize: 12 },
+  utilDivider: { width: 1, height: 12, background: '#3d3a3b' },
+
+  mainBar: { position: 'relative', background: '#fff' },
+  mainInner: { maxWidth: 1360, margin: '0 auto', padding: '16px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'nowrap' },
+  brand: { display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 },
+  nav: { display: 'flex', gap: 18, alignItems: 'center', flexWrap: 'nowrap', minWidth: 0 },
+  navItem: { position: 'relative' },
+  navLink: { fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: '.06em', textTransform: 'uppercase', color: '#231f20', textDecoration: 'none', padding: '8px 0', borderBottom: '2px solid transparent', transition: 'color 160ms, border-color 160ms', whiteSpace: 'nowrap' },
+  actions: { display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 },
+  iconBtn: { width: 38, height: 38, border: '1px solid #ececec', background: '#fff', borderRadius: 999, cursor: 'pointer', color: '#231f20', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' },
+
+  mega: { position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', borderTop: '1px solid #ececec', borderBottom: '4px solid #ea1c24', boxShadow: '0 18px 40px rgba(35,31,32,.10)', animation: 'au-fade-up 180ms cubic-bezier(.2,.7,.2,1) both' },
+  megaInner: { maxWidth: 1280, margin: '0 auto', padding: '36px 32px' },
+  megaCols: { display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: 40 },
+  megaEyebrow: { fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', color: '#ea1c24', marginBottom: 16 },
+  megaList: { display: 'flex', flexDirection: 'column', gap: 4 },
+  megaProgram: { display: 'flex', alignItems: 'center', gap: 14, padding: '14px 12px', borderRadius: 4, textDecoration: 'none', color: '#231f20', transition: 'background 120ms' },
+  megaProgramBar: { width: 4, height: 36, borderRadius: 2 },
+  megaProgramTag: { fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#5a5659' },
+  megaProgramName: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 18, lineHeight: 1.05, color: '#231f20', marginTop: 2 },
+
+  megaSchools: { listStyle: 'none', padding: 0, margin: 0 },
+  megaSchoolLi: { marginBottom: 10 },
+  megaSchoolLink: { display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Open Sans', sans-serif", fontSize: 14, color: '#231f20', textDecoration: 'none' },
+  megaSchoolDot: { width: 8, height: 8, borderRadius: 999, display: 'inline-block' },
+
+  megaPromo: { background: '#ea1c24', color: '#fff', padding: 24, borderRadius: 4, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' },
+  megaPromoEyebrow: { fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', opacity: .9 },
+  megaPromoTitle: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 24, lineHeight: 1.05, marginTop: 10 },
+
+  // Footer
+  footer: { background: '#231f20', color: '#d9d9d9', padding: '80px 0 32px', fontFamily: "'Open Sans', sans-serif" },
+  footerInner: { maxWidth: 1200, margin: '0 auto', padding: '0 32px' },
+  footerTop: { display: 'grid', gridTemplateColumns: '1.2fr 2.5fr', gap: 60 },
+  footerBlurb: { fontSize: 14, color: '#8a8a8a', marginTop: 18, maxWidth: 280, lineHeight: 1.55 },
+  footerRule: { height: 4, width: 56, background: '#ea1c24', margin: '24px 0 14px' },
+  footerMotto: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 26, color: '#fff', lineHeight: 1.05 },
+  footerSocial: { display: 'flex', gap: 14, marginTop: 26 },
+  footerSocialLink: { fontSize: 12, color: '#d9d9d9', textDecoration: 'none', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 700 },
+  footerCols: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 },
+  footerColHead: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 14, color: '#fff', marginBottom: 14, letterSpacing: '.04em' },
+  footerList: { listStyle: 'none', padding: 0, margin: 0 },
+  footerLi: { marginBottom: 9 },
+  footerLink: { color: '#d9d9d9', textDecoration: 'none', fontSize: 13.5 },
+  footerLegal: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 56, paddingTop: 24, borderTop: '1px solid #3d3a3b', fontSize: 12, color: '#8a8a8a' },
+  legalLink: { color: '#8a8a8a', textDecoration: 'none' },
+};
+
+window.Header = Header;
+window.Footer = Footer;
+window.AMark = AMark;
+  </script>
+
+  <script type="text/babel">
+// Home.jsx — AU Home page. Mix of Imperial photo-hero, UWE course-finder, AU red interstitial.
+
+const { useState: useStateHome } = React;
+
+function HomePage({ go, tweaks }) {
+  const heroVariant = tweaks.heroVariant || 'photo';
+  const showFinder = tweaks.showFinder !== false;
+
+  return (
+    <div data-screen-label="Home" className="au-anim">
+      {heroVariant === 'photo' && <HeroPhoto go={go} />}
+      {heroVariant === 'red' && <HeroRed go={go} />}
+      {heroVariant === 'split' && <HeroSplit go={go} />}
+
+      {showFinder && <CourseFinder go={go} />}
+
+      <SchoolsBlock go={go} />
+      <StatsBlock />
+      <FeatureMBA go={go} />
+      <ValuePropsRow />
+      <FacultyRow />
+      <NewsAndEvents />
+      <CTABanner go={go} />
+    </div>
+  );
+}
+
+// --- Hero variants ---------------------------------------------------------
+function HeroPhoto({ go }) {
+  return (
+    <section style={{ position: 'relative', minHeight: 620, color: '#fff', overflow: 'hidden', background: '#231f20' }}>
+      {/* Photo bg — graduation ceremony */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: 'url(assets/hero-graduation.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 30%',
+      }} />
+      {/* Dark gradient over photo for legibility */}
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(35,31,32,.72) 0%, rgba(35,31,32,.45) 55%, rgba(35,31,32,.15) 100%)' }} />
+      <div className="au-container" style={{ position: 'relative', padding: '110px 32px 90px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 620 }}>
+        {/* Glass panel */}
+        <div style={{
+          display: 'inline-block',
+          background: 'rgba(35,31,32,0.42)',
+          WebkitBackdropFilter: 'blur(18px) saturate(140%)',
+          backdropFilter: 'blur(18px) saturate(140%)',
+          border: '1px solid rgba(255,255,255,0.12)',
+          color: '#fff', padding: '28px 32px', maxWidth: 740, borderRadius: 4,
+          boxShadow: '0 18px 40px rgba(0,0,0,.25)',
+        }}>
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>We are Atlantis</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(48px, 6vw, 86px)', lineHeight: 0.95, margin: '14px 0 6px', color: '#fff', letterSpacing: '-0.005em' }}>
+            Home of the<br/>non-conformists.
+          </h1>
+          <p style={{ fontSize: 17, lineHeight: 1.5, color: '#e6e6e6', maxWidth: 560, margin: '20px 0 4px' }}>
+            Rigorous, tech-driven, career-inspired education — built with industry professionals, in the Miami Health District.
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: 12, marginTop: 26 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-primary">Apply now →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('programs'); }} className="au-btn au-btn-ghost-light">Explore programs</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroRed({ go }) {
+  return (
+    <section style={{ background: '#ea1c24', color: '#fff', padding: '110px 0 96px', position: 'relative', overflow: 'hidden' }}>
+      <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 56, alignItems: 'center' }}>
+        <div>
+          <div className="au-bar-eyebrow" style={{ color: '#fff' }}>We are Atlantis</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(48px, 6.4vw, 92px)', lineHeight: 0.95, margin: '18px 0 4px', color: '#fff' }}>
+            Home of the<br/>non-conformists.
+          </h1>
+          <p style={{ fontSize: 18, lineHeight: 1.55, color: '#fff', maxWidth: 540, marginTop: 22, opacity: .92 }}>
+            Career-minded education, designed alongside the industries that hire you. We meet you where you are.
+          </p>
+          <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-inverse">Apply now →</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('programs'); }} className="au-btn au-btn-ghost-light">Explore programs</a>
+          </div>
+        </div>
+        <div style={{ height: 420, background: 'url(https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1000&q=80) center/cover', borderRadius: 4 }} />
+      </div>
+    </section>
+  );
+}
+
+function HeroSplit({ go }) {
+  return (
+    <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 580 }}>
+      <div style={{ background: '#231f20', color: '#fff', padding: '90px 56px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>We are Atlantis</div>
+        <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(40px, 4.6vw, 72px)', lineHeight: 0.95, margin: '18px 0 4px' }}>
+          Home of the<br/><span style={{ color: '#ea1c24' }}>non-conformists.</span>
+        </h1>
+        <p style={{ fontSize: 17, lineHeight: 1.55, color: '#d9d9d9', maxWidth: 460, marginTop: 22 }}>
+          Career-focused, tech-driven, and proudly built for adult learners.
+        </p>
+        <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-primary">Apply now →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('programs'); }} className="au-btn au-btn-ghost-light">Explore programs</a>
+        </div>
+      </div>
+      <div style={{ background: 'url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80) center/cover' }} />
+    </section>
+  );
+}
+
+// --- Course finder (UWE-style) ---------------------------------------------
+function CourseFinder({ go }) {
+  const [q, setQ] = useStateHome('');
+  const [level, setLevel] = useStateHome('Any level');
+  const tags = ['MBA', 'Artificial Intelligence', 'Education', 'Bilingual', 'Online', 'Health', 'Engineering'];
+  return (
+    <section style={{ background: '#231f20', color: '#fff', padding: '56px 0' }}>
+      <div className="au-container">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2.4fr', gap: 48, alignItems: 'center' }}>
+          <div>
+            <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>Find a program</div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 32, lineHeight: 1, margin: '14px 0 0', color: '#fff' }}>
+              In any direction.
+            </h2>
+          </div>
+          <div>
+            <form
+              onSubmit={(e) => { e.preventDefault(); go('programs'); }}
+              style={{ display: 'flex', gap: 8, background: '#fff', padding: 6, borderRadius: 4 }}
+            >
+              <select className="au-select" value={level} onChange={(e) => setLevel(e.target.value)} style={{ flex: '0 0 200px', border: 0 }}>
+                {['Any level', 'Diploma', 'Associate', 'Bachelor', 'Master', 'Continuing Ed'].map(l => <option key={l}>{l}</option>)}
+              </select>
+              <input
+                className="au-input"
+                placeholder="Search by program, school, or keyword…"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                style={{ flex: 1, border: 0, fontSize: 16 }}
+              />
+              <button className="au-btn au-btn-primary" type="submit" style={{ borderRadius: 4 }}>Search</button>
+            </form>
+            <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <span style={{ fontSize: 12, color: '#8a8a8a', textTransform: 'uppercase', letterSpacing: '.1em', fontWeight: 700, marginRight: 4, alignSelf: 'center' }}>Popular:</span>
+              {tags.map(t => (
+                <a key={t} href="#" onClick={(e) => { e.preventDefault(); go('programs'); }} style={{ fontSize: 12.5, color: '#fff', background: '#3d3a3b', padding: '6px 12px', borderRadius: 999, textDecoration: 'none', fontWeight: 600 }}>{t}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Featured programs row -------------------------------------------------
+function SchoolsBlock({ go }) {
+  const featured = [
+    { id: 'mba', name: 'Master of Business Administration', short: 'MBA', color: '#00abe9', img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80' },
+    { id: 'ai', name: 'MS in Artificial Intelligence', short: 'AI', color: '#ea1c24', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80' },
+    { id: 'education', name: 'Master of Education', short: 'M.Ed.', color: '#fcb62b', img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80' },
+  ];
+  return (
+    <section className="au-section" style={{ background: '#fff' }}>
+      <div className="au-container">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 36 }}>
+          <div>
+            <div className="au-bar-eyebrow">Our programs</div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 48, lineHeight: 1, margin: '14px 0 0', color: '#231f20' }}>
+              Three flagship<br/>graduate degrees.
+            </h2>
+          </div>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('programs'); }} className="au-btn au-btn-ghost-dark">All programs →</a>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+          {featured.map(f => (
+            <a key={f.id} href="#" onClick={(e) => { e.preventDefault(); go('program:' + f.id); }} className="au-card" style={{ textDecoration: 'none', color: '#231f20', overflow: 'hidden', display: 'block' }}>
+              <div style={{ height: 220, background: `url(${f.img}) center/cover`, position: 'relative' }}>
+                <div style={{ position: 'absolute', top: 14, left: 14, background: f.color, color: '#fff', padding: '6px 12px', fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', borderRadius: 2 }}>{f.short}</div>
+              </div>
+              <div style={{ padding: 24 }}>
+                <div style={{ height: 4, width: 36, background: f.color, marginBottom: 14 }} />
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22, lineHeight: 1.05 }}>{f.name}</div>
+                <div style={{ marginTop: 18, color: f.color, fontWeight: 700, fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase' }}>Explore →</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Stats block (Imperial-style dark stat panel) --------------------------
+function StatsBlock() {
+  const stats = [
+    { value: 'No. 1', label: 'Career outcomes in Florida private universities (2025)' },
+    { value: '94%', label: 'Of grads hired within 6 months' },
+    { value: '24', label: 'Industry partners across Health, Tech, Finance' },
+    { value: '38', label: 'Languages spoken on campus' },
+  ];
+  return (
+    <section style={{ background: '#231f20', color: '#fff', padding: '64px 0' }}>
+      <div className="au-container">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
+          {stats.map((s, i) => (
+            <div key={i} style={{ padding: '24px 28px', borderLeft: i === 0 ? 'none' : '1px solid #3d3a3b' }}>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 56, lineHeight: 1, color: '#fff', letterSpacing: '-0.01em' }}>{s.value}</div>
+              <div style={{ height: 3, width: 36, background: '#ea1c24', margin: '14px 0' }} />
+              <div style={{ fontSize: 13, color: '#d9d9d9', lineHeight: 1.5 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Featured MBA story (Imperial-style green-block feature) ---------------
+function FeatureMBA({ go }) {
+  return (
+    <section className="au-section">
+      <div className="au-container">
+        <div style={{ borderTop: '1px solid #ececec', paddingTop: 28, marginBottom: 28 }}>
+          <div className="au-bar-eyebrow">Career-built</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 0, alignItems: 'stretch' }}>
+          <div style={{ background: '#00abe9', color: '#fff', padding: '56px 48px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ display: 'inline-block', background: '#231f20', color: '#fff', padding: '6px 12px', fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', borderRadius: 2 }}>School of Business</div>
+              <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 56, lineHeight: 0.95, margin: '20px 0 0', color: '#231f20' }}>
+                The MBA<br/>built for<br/>operators.
+              </h2>
+              <p style={{ fontSize: 16, lineHeight: 1.55, color: '#231f20', marginTop: 22, maxWidth: 360 }}>
+                You'll sit beside founders, controllers, and product leads — and graduate ready to make calls that move a balance sheet.
+              </p>
+            </div>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('program:mba'); }} className="au-btn au-btn-dark" style={{ alignSelf: 'flex-start', marginTop: 28 }}>Read about the MBA →</a>
+          </div>
+          <div style={{ background: 'url(https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=80) center/cover', minHeight: 480 }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Value props row (compact, three-up) -----------------------------------
+function ValuePropsRow() {
+  const cards = [
+    { eyebrow: "We're personal", title: "Tailor-made attention.", body: "Big on tech, bigger on the attention you want and deserve. Faculty know your name." },
+    { eyebrow: "Our people",     title: "Faculty who've done it.", body: "Industry-built and academically grounded. They show up — for both your goals and your career." },
+    { eyebrow: "Global campus",  title: "We meet you where you are.", body: "Same resources from your couch in Bogotá or your seat in University Park. No second-class online." },
+  ];
+  return (
+    <section className="au-section" style={{ background: '#f5f5f5' }}>
+      <div className="au-container">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          {cards.map((c, i) => (
+            <div key={i} style={{ background: '#fff', padding: 32, borderRadius: 4, border: '1px solid #ececec' }}>
+              <div className="au-bar-eyebrow">{c.eyebrow}</div>
+              <h3 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 26, lineHeight: 1.05, margin: '18px 0 12px', color: '#231f20' }}>{c.title}</h3>
+              <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#5a5659', margin: 0 }}>{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Faculty B&W row -------------------------------------------------------
+function FacultyRow() {
+  const faculty = [
+    { name: 'Dr. Marco Velasquez', role: 'Director · Computer Science', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80', quote: "We don't teach frameworks. We teach engineers who can pick up any framework and ship." },
+    { name: 'Dr. Carmen Ocasio',   role: 'Chair · Strategy',             img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80', quote: "An MBA is not a credential. It's the muscle to make decisions when you don't have all the data." },
+    { name: 'Dr. Lourdes Bermúdez', role: 'Chair · Education',           img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80', quote: "We're not training teachers. We're training the people who'll redesign schools." },
+  ];
+  return (
+    <section className="au-section">
+      <div className="au-container">
+        <div className="au-bar-eyebrow">Our people</div>
+        <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 44, lineHeight: 1, margin: '14px 0 32px', color: '#231f20' }}>Faculty who've done the work.</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          {faculty.map((f, i) => (
+            <article key={i}>
+              <div style={{ position: 'relative', height: 360, overflow: 'hidden', borderRadius: 2, marginBottom: 18 }}>
+                <img src={f.img} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1) contrast(1.05)' }} />
+                <div style={{ position: 'absolute', bottom: 16, left: 16, color: '#fff', fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 20, textShadow: '0 2px 12px rgba(0,0,0,.6)' }}>{f.name}</div>
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#ea1c24', marginBottom: 8 }}>{f.role}</div>
+              <div style={{ fontSize: 16, lineHeight: 1.55, color: '#231f20', fontStyle: 'italic' }}>"{f.quote}"</div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- News + Events grid (UWE-style two-column) -----------------------------
+function NewsAndEvents() {
+  return (
+    <section className="au-section" style={{ background: '#f5f5f5' }}>
+      <div className="au-container">
+        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 48 }}>
+          <div>
+            <div className="au-bar-eyebrow">Latest news</div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 24px', color: '#231f20' }}>What's happening at Atlantis</h2>
+            <div style={{ display: 'grid', gap: 16 }}>
+              {window.NEWS.map((n, i) => (
+                <a key={i} href="#" style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 18, textDecoration: 'none', color: '#231f20', background: '#fff', padding: 14, borderRadius: 4, border: '1px solid #ececec' }}>
+                  <div style={{ height: 110, background: `url(${n.img}) center/cover`, borderRadius: 2 }} />
+                  <div>
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase' }}>
+                      <span style={{ color: '#ea1c24' }}>{n.tag}</span>
+                      <span style={{ width: 1, height: 10, background: '#d9d9d9' }} />
+                      <span style={{ color: '#8a8a8a' }}>{n.date}</span>
+                    </div>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 19, lineHeight: 1.1, marginTop: 10 }}>{n.title}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="au-bar-eyebrow">Upcoming events</div>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 24px', color: '#231f20' }}>Visit us</h2>
+            <div style={{ display: 'grid', gap: 12 }}>
+              {window.EVENTS.map((ev, i) => (
+                <a key={i} href="#" style={{ display: 'grid', gridTemplateColumns: '64px 1fr', gap: 16, alignItems: 'center', textDecoration: 'none', color: '#231f20', background: '#fff', padding: 16, borderRadius: 4, border: '1px solid #ececec' }}>
+                  <div style={{ textAlign: 'center', borderRight: '1px solid #ececec', paddingRight: 14 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#ea1c24' }}>{ev.day}</div>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 22, lineHeight: 1, marginTop: 4 }}>{ev.date}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 16, lineHeight: 1.15 }}>{ev.title}</div>
+                    <div style={{ fontSize: 12.5, color: '#8a8a8a', marginTop: 4 }}>{ev.meta}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- Big CTA banner --------------------------------------------------------
+function CTABanner({ go }) {
+  return (
+    <section style={{ background: '#ea1c24', color: '#fff', padding: '88px 0' }}>
+      <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 56, alignItems: 'center' }}>
+        <div>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 44, lineHeight: 1.02, color: '#fff' }}>
+            "We are determined to build a community of Atlanteans — a place where human values and high-level technology converge at the service of knowledge."
+          </div>
+          <div style={{ height: 4, width: 80, background: '#fff', marginTop: 28 }} />
+        </div>
+        <div>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-inverse" style={{ fontSize: 14, padding: '16px 28px' }}>Start your application →</a>
+          <div style={{ marginTop: 16, fontSize: 14, opacity: .9 }}>Fall 2026 priority deadline · June 1, 2026</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+window.HomePage = HomePage;
+  </script>
+
+  <script type="text/babel">
+// Programs.jsx — Programs hub + Program detail pages (MBA, AI, Education)
+
+const { useState: useStateProg } = React;
+
+// === Programs HUB ==========================================================
+function ProgramsPage({ go }) {
+  const [filter, setFilter] = useStateProg('All');
+  const all = Object.values(window.PROGRAMS);
+  const filters = ['All', 'Business', 'Computer Science', 'Education'];
+
+  return (
+    <div data-screen-label="Programs" className="au-anim">
+      {/* Hero */}
+      <section style={{ background: '#231f20', color: '#fff', padding: '90px 0 70px', position: 'relative', overflow: 'hidden' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>Programs</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(48px, 5.5vw, 84px)', lineHeight: 0.95, margin: '14px 0 0', color: '#fff' }}>
+            Our in-demand<br/>diplomas and degrees.
+          </h1>
+          <p style={{ fontSize: 18, lineHeight: 1.55, color: '#d9d9d9', maxWidth: 640, marginTop: 24 }}>
+            Three flagship graduate degrees, six schools, one shared belief: rigor and career outcomes are not in tension.
+          </p>
+        </div>
+      </section>
+
+      {/* Filter bar */}
+      <section style={{ background: '#fff', borderBottom: '1px solid #ececec', position: 'sticky', top: 0, zIndex: 5 }}>
+        <div className="au-container" style={{ display: 'flex', gap: 6, padding: '18px 32px', overflowX: 'auto' }}>
+          {filters.map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              style={{
+                fontFamily: "'Open Sans', sans-serif", fontWeight: 700, fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase',
+                padding: '10px 18px', borderRadius: 999,
+                background: filter === f ? '#231f20' : 'transparent', color: filter === f ? '#fff' : '#231f20',
+                border: filter === f ? '1px solid #231f20' : '1px solid #d9d9d9', cursor: 'pointer', whiteSpace: 'nowrap',
+              }}
+            >{f}</button>
+          ))}
+        </div>
+      </section>
+
+      {/* Programs cards */}
+      <section className="au-section" style={{ background: '#f5f5f5' }}>
+        <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
+          {all
+            .filter(p => filter === 'All' || window.SCHOOLS[p.school].name === filter)
+            .map(p => (
+              <a key={p.id} href="#" onClick={(e) => { e.preventDefault(); go('program:' + p.id); }} className="au-card" style={{ textDecoration: 'none', color: '#231f20', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1.6fr 1fr', alignItems: 'stretch' }}>
+                <div style={{ padding: '36px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ display: 'inline-block', background: p.color, color: '#fff', padding: '6px 12px', fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', borderRadius: 2 }}>{window.SCHOOLS[p.school].tag}</div>
+                    <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 38, lineHeight: 1, margin: '18px 0 0' }}>{p.name}</h2>
+                    <div style={{ height: 4, width: 56, background: p.color, margin: '18px 0' }} />
+                    <p style={{ fontSize: 15, lineHeight: 1.55, color: '#5a5659', maxWidth: 560 }}>{p.blurb}</p>
+                  </div>
+                  <div style={{ display: 'flex', gap: 32, marginTop: 24, fontSize: 12.5 }}>
+                    <FactPair label="Length" value={p.length} />
+                    <FactPair label="Credits" value={p.credits} />
+                    <FactPair label="Format" value={p.format.join(' · ')} />
+                    <FactPair label="Next start" value={p.next} />
+                  </div>
+                </div>
+                <div style={{ background: `linear-gradient(135deg, ${p.color}22, ${p.color}55)`, padding: 32, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: `4px solid ${p.color}` }}>
+                  <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22, lineHeight: 1.05, color: '#231f20' }}>{p.tagline}</div>
+                  <div style={{ marginTop: 24, color: p.color, fontWeight: 700, fontSize: 13, letterSpacing: '.08em', textTransform: 'uppercase' }}>Program details →</div>
+                </div>
+              </a>
+            ))}
+        </div>
+      </section>
+
+      {/* Schools strip */}
+      <section className="au-section" style={{ background: '#fff' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Six schools</div>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 32px' }}>Explore by school.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            {Object.entries(window.SCHOOLS).map(([id, s]) => (
+              <div key={id} className="au-card" style={{ padding: 22, borderTop: `4px solid ${s.color}`, borderTopWidth: 4 }}>
+                <div style={{ fontWeight: 700, fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: s.color }}>School of</div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 26, lineHeight: 1, margin: '8px 0 14px' }}>{s.name}</div>
+                <a href="#" onClick={(e) => e.preventDefault()} style={{ fontWeight: 700, fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', color: s.color, textDecoration: 'none' }}>Programs →</a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function FactPair({ label, value }) {
+  return (
+    <div>
+      <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#8a8a8a' }}>{label}</div>
+      <div style={{ fontSize: 14, fontWeight: 700, color: '#231f20', marginTop: 4 }}>{value}</div>
+    </div>
+  );
+}
+
+// === Program DETAIL ========================================================
+function ProgramDetailPage({ id, go }) {
+  const p = window.PROGRAMS[id];
+  if (!p) return <div style={{ padding: 80, textAlign: 'center' }}>Program not found.</div>;
+  const school = window.SCHOOLS[p.school];
+  const [tab, setTab] = useStateProg('overview');
+
+  return (
+    <div data-screen-label={`Program: ${p.short}`} className="au-anim">
+      {/* Hero - school colored */}
+      <section style={{ background: p.color, color: '#fff', padding: '90px 0 70px', position: 'relative' }}>
+        <div className="au-container">
+          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', opacity: .9 }}>{school.tag}</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(56px, 6.5vw, 96px)', lineHeight: 0.95, margin: '14px 0 8px', color: '#fff' }}>{p.short}</h1>
+          <div style={{ fontFamily: "'Open Sans', sans-serif", fontSize: 22, color: '#fff', opacity: .92, maxWidth: 700 }}>{p.name}</div>
+          <div style={{ height: 4, width: 80, background: '#fff', margin: '28px 0 22px' }} />
+          <p style={{ fontSize: 18, lineHeight: 1.5, color: '#fff', maxWidth: 660, opacity: .95 }}>{p.blurb}</p>
+
+          <div style={{ display: 'flex', gap: 12, marginTop: 30 }}>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-dark">Apply now →</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('tuition'); }} className="au-btn au-btn-ghost-light">Tuition & aid</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick facts strip */}
+      <section style={{ background: '#231f20', color: '#fff' }}>
+        <div className="au-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+          {[
+            ['Length', p.length],
+            ['Credits', p.credits],
+            ['Format', p.format.join(' · ')],
+            ['Next start', p.next],
+          ].map(([k, v], i) => (
+            <div key={k} style={{ padding: '24px 28px', borderLeft: i === 0 ? 'none' : '1px solid #3d3a3b' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#8a8a8a' }}>{k}</div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22, color: '#fff', marginTop: 8, lineHeight: 1.05 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Tabs */}
+      <section style={{ background: '#fff', borderBottom: '1px solid #ececec', position: 'sticky', top: 0, zIndex: 5 }}>
+        <div className="au-container" style={{ display: 'flex', gap: 0 }}>
+          {['overview', 'curriculum', 'faculty', 'outcomes'].map(t => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              style={{
+                fontFamily: "'Open Sans', sans-serif", fontWeight: 700, fontSize: 12.5, letterSpacing: '.08em', textTransform: 'uppercase',
+                padding: '20px 22px', background: 'transparent', border: 0, cursor: 'pointer',
+                color: tab === t ? p.color : '#231f20',
+                borderBottom: tab === t ? `3px solid ${p.color}` : '3px solid transparent',
+              }}
+            >{t}</button>
+          ))}
+        </div>
+      </section>
+
+      {/* Tab content */}
+      {tab === 'overview' && <ProgramOverview p={p} />}
+      {tab === 'curriculum' && <ProgramCurriculum p={p} />}
+      {tab === 'faculty' && <ProgramFaculty p={p} />}
+      {tab === 'outcomes' && <ProgramOutcomes p={p} />}
+
+      {/* CTA */}
+      <section style={{ background: p.color, color: '#fff', padding: '70px 0' }}>
+        <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40, alignItems: 'center' }}>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 38, lineHeight: 1, color: '#fff' }}>
+            Ready to be a<br/>non-conformist?
+          </div>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-dark">Start your application →</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('admissions'); }} className="au-btn au-btn-ghost-light">Admissions</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function ProgramOverview({ p }) {
+  return (
+    <section className="au-section">
+      <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 56 }}>
+        <div>
+          <div className="au-bar-eyebrow">About the program</div>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 24px' }}>{p.tagline}</h2>
+          <p style={{ fontSize: 17, lineHeight: 1.65, color: '#231f20' }}>
+            {p.blurb} You'll work in cohorts of 24 or fewer, alongside professionals already in the field. Faculty bring industry experience to every class — not just theory.
+          </p>
+          <p style={{ fontSize: 16, lineHeight: 1.6, color: '#5a5659', marginTop: 18 }}>
+            The program culminates in a capstone — either a live client project, a paid industry placement, or a classroom residency, depending on your track. By the time you graduate, you've already done the work.
+          </p>
+        </div>
+        <aside style={{ background: '#f5f5f5', padding: 28, borderRadius: 4, alignSelf: 'start' }}>
+          <div style={{ fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', color: p.color }}>What you'll get</div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0' }}>
+            {[
+              'Cohort of ≤24 peers',
+              'Industry-active faculty',
+              'Paid or live capstone',
+              'Career advisor for life',
+              'Bilingual classroom option',
+              'Hire-ready alumni network',
+            ].map(item => (
+              <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 0', borderBottom: '1px solid #ececec', fontSize: 14, color: '#231f20' }}>
+                <span style={{ color: p.color, fontWeight: 700, marginTop: 1 }}>→</span> {item}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
+function ProgramCurriculum({ p }) {
+  return (
+    <section className="au-section">
+      <div className="au-container">
+        <div className="au-bar-eyebrow">Curriculum</div>
+        <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 32px' }}>{p.courses.length} courses · {p.credits}</h2>
+        <div style={{ background: '#fff', border: '1px solid #ececec', borderRadius: 4, overflow: 'hidden' }}>
+          {p.courses.map((c, i) => (
+            <div key={c.code} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 200px', gap: 0, padding: '18px 24px', borderBottom: i < p.courses.length - 1 ? '1px solid #ececec' : 'none', alignItems: 'center' }}>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 16, color: p.color }}>{c.code}</div>
+              <div style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: 16, color: '#231f20' }}>{c.name}</div>
+              <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#8a8a8a', textAlign: 'right' }}>{c.term}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProgramFaculty({ p }) {
+  return (
+    <section className="au-section">
+      <div className="au-container">
+        <div className="au-bar-eyebrow">Faculty</div>
+        <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 32px' }}>The people who'll teach you.</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32 }}>
+          {p.faculty.map((f, i) => (
+            <article key={f.name} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 22 }}>
+              <div style={{ height: 200, background: 'linear-gradient(160deg,#3d3a3b,#231f20)', borderRadius: 2, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', bottom: 12, left: 12, color: '#fff', fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 13 }}>{f.name.split(' ').slice(-1)[0]}</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22, lineHeight: 1.05 }}>{f.name}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: p.color, marginTop: 6 }}>{f.role}</div>
+                <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#5a5659', marginTop: 14 }}>{f.bio}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProgramOutcomes({ p }) {
+  return (
+    <section className="au-section">
+      <div className="au-container">
+        <div className="au-bar-eyebrow">Career outcomes</div>
+        <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, margin: '14px 0 32px' }}>Where graduates land.</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginBottom: 48 }}>
+          {p.outcomes.map((o, i) => (
+            <div key={i} style={{ background: '#fff', border: '1px solid #ececec', padding: 28, borderRadius: 4, borderTop: `4px solid ${p.color}` }}>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 56, lineHeight: 1, color: p.color }}>{o.value}</div>
+              <div style={{ height: 3, width: 32, background: '#231f20', margin: '14px 0' }} />
+              <div style={{ fontSize: 14, color: '#231f20', lineHeight: 1.45 }}>{o.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="au-bar-eyebrow">Hiring partners</div>
+        <h3 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22, margin: '12px 0 20px' }}>Where our grads work</h3>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+          {p.employers.map(e => (
+            <div key={e} style={{ padding: '12px 18px', background: '#f5f5f5', borderRadius: 4, fontWeight: 600, fontSize: 14, color: '#231f20' }}>{e}</div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+window.ProgramsPage = ProgramsPage;
+window.ProgramDetailPage = ProgramDetailPage;
+  </script>
+
+  <script type="text/babel">
+// Apply.jsx — Multi-step application form
+
+const { useState: useStateApply } = React;
+
+function ApplyPage({ go }) {
+  const [step, setStep] = useStateApply(0);
+  const [form, setForm] = useStateApply({
+    first: '', last: '', email: '', phone: '', country: 'United States',
+    program: 'Master of Business Administration', school: 'Business', format: 'On campus', start: 'Fall 2026',
+    education: 'Bachelor', gpa: '', resume: 'No file selected', statement: '',
+    consent: false,
+  });
+  const set = (k, v) => setForm({ ...form, [k]: v });
+
+  const steps = [
+    { id: 'about', label: 'About you' },
+    { id: 'program', label: 'Program' },
+    { id: 'background', label: 'Background' },
+    { id: 'review', label: 'Review' },
+  ];
+
+  const next = () => setStep(Math.min(step + 1, steps.length));
+  const back = () => setStep(Math.max(step - 1, 0));
+
+  const submitted = step === steps.length;
+
+  return (
+    <div data-screen-label="Apply" className="au-anim">
+      <section style={{ background: '#231f20', color: '#fff', padding: '60px 0 40px' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>Apply · ~5 minutes</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(40px, 5vw, 64px)', lineHeight: 0.95, margin: '14px 0 0', color: '#fff' }}>
+            Tell us who you are.
+          </h1>
+          <p style={{ fontSize: 16, color: '#d9d9d9', marginTop: 14, maxWidth: 540 }}>
+            We'll save your progress as you go. Application fee is waived through May 31.
+          </p>
+        </div>
+      </section>
+
+      {/* Stepper */}
+      <section style={{ background: '#fff', borderBottom: '1px solid #ececec' }}>
+        <div className="au-container" style={{ padding: '24px 32px', display: 'flex', gap: 0, alignItems: 'center' }}>
+          {steps.map((s, i) => {
+            const done = submitted || i < step;
+            const active = !submitted && i === step;
+            return (
+              <React.Fragment key={s.id}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, opacity: done || active ? 1 : .5 }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 999,
+                    background: done ? '#ea1c24' : active ? '#231f20' : '#f5f5f5',
+                    color: done || active ? '#fff' : '#231f20',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 14,
+                    border: active ? '2px solid #ea1c24' : 'none',
+                  }}>
+                    {done ? '✓' : i + 1}
+                  </div>
+                  <div style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: '#231f20' }}>{s.label}</div>
+                </div>
+                {i < steps.length - 1 && <div style={{ flex: 1, height: 2, background: i < step || submitted ? '#ea1c24' : '#ececec', margin: '0 18px' }} />}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="au-section" style={{ background: '#f5f5f5' }}>
+        <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 40, alignItems: 'start' }}>
+          <div style={{ background: '#fff', padding: 36, borderRadius: 4, border: '1px solid #ececec' }}>
+            {submitted ? (
+              <div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 36, color: '#231f20', lineHeight: 1 }}>Thank you, {form.first || 'Atlantean'}.</div>
+                <div className="au-rule-thick" />
+                <p style={{ fontSize: 16, lineHeight: 1.6, color: '#5a5659', maxWidth: 520 }}>
+                  Your application is in. An advisor from the School of {form.school} will reach out within one business day. In the meantime — keep being non-conformist.
+                </p>
+                <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+                  <a href="#" onClick={(e) => { e.preventDefault(); go('home'); }} className="au-btn au-btn-primary">Back to home</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); go('flex'); }} className="au-btn au-btn-ghost-dark">Plan your study schedule</a>
+                </div>
+              </div>
+            ) : (
+              <>
+                {step === 0 && <StepAbout form={form} set={set} />}
+                {step === 1 && <StepProgram form={form} set={set} />}
+                {step === 2 && <StepBackground form={form} set={set} />}
+                {step === 3 && <StepReview form={form} />}
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 40, paddingTop: 24, borderTop: '1px solid #ececec' }}>
+                  <button onClick={back} disabled={step === 0} className="au-btn au-btn-ghost-dark" style={{ opacity: step === 0 ? .4 : 1 }}>← Back</button>
+                  <button onClick={next} className="au-btn au-btn-primary">
+                    {step === steps.length - 1 ? 'Submit application →' : 'Continue →'}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          <aside style={{ position: 'sticky', top: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ background: '#ea1c24', color: '#fff', padding: 24, borderRadius: 4 }}>
+              <div style={{ fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', opacity: .9 }}>Priority deadline</div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 30, lineHeight: 1, marginTop: 10 }}>June 1, 2026</div>
+              <div style={{ marginTop: 12, fontSize: 13, opacity: .9 }}>For Fall 2026 priority consideration & merit aid.</div>
+            </div>
+            <div style={{ background: '#fff', padding: 22, borderRadius: 4, border: '1px solid #ececec' }}>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 16, color: '#231f20' }}>Need help?</div>
+              <p style={{ fontSize: 13.5, color: '#5a5659', lineHeight: 1.55, marginTop: 8 }}>
+                Talk to an advisor: <strong style={{ color: '#231f20' }}>+1 (305) 555-0100</strong><br/>
+                Email: <a href="#" style={{ color: '#ea1c24' }}>admissions@atlantis.edu</a>
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function Field({ label, children, span = 1 }) {
+  return (
+    <label style={{ gridColumn: `span ${span}`, display: 'flex', flexDirection: 'column' }}>
+      <span className="au-label">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+function StepAbout({ form, set }) {
+  return (
+    <div>
+      <div className="au-bar-eyebrow">Step 1 of 4</div>
+      <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 28, margin: '12px 0 24px' }}>About you</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <Field label="First name"><input className="au-input" value={form.first} onChange={(e) => set('first', e.target.value)} /></Field>
+        <Field label="Last name"><input className="au-input" value={form.last} onChange={(e) => set('last', e.target.value)} /></Field>
+        <Field label="Email" span={2}><input className="au-input" type="email" value={form.email} onChange={(e) => set('email', e.target.value)} /></Field>
+        <Field label="Phone"><input className="au-input" value={form.phone} onChange={(e) => set('phone', e.target.value)} /></Field>
+        <Field label="Country of residence">
+          <select className="au-select" value={form.country} onChange={(e) => set('country', e.target.value)}>
+            {['United States', 'Mexico', 'Colombia', 'Venezuela', 'Brazil', 'Argentina', 'Spain', 'Other'].map(c => <option key={c}>{c}</option>)}
+          </select>
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+function StepProgram({ form, set }) {
+  const programs = Object.values(window.PROGRAMS);
+  return (
+    <div>
+      <div className="au-bar-eyebrow">Step 2 of 4</div>
+      <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 28, margin: '12px 0 24px' }}>Choose your program</h2>
+      <div style={{ display: 'grid', gap: 10 }}>
+        {programs.map(p => {
+          const active = form.program === p.name;
+          return (
+            <label key={p.id} style={{
+              display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 16, padding: '18px 20px',
+              border: `2px solid ${active ? p.color : '#ececec'}`, borderRadius: 4, cursor: 'pointer',
+              background: active ? `${p.color}11` : '#fff',
+            }}>
+              <input type="radio" name="program" checked={active} onChange={() => { set('program', p.name); set('school', window.SCHOOLS[p.school].name); }} style={{ accentColor: p.color, marginTop: 4 }} />
+              <div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 18 }}>{p.name}</div>
+                <div style={{ fontSize: 13, color: '#5a5659', marginTop: 4 }}>{p.length} · {p.credits} · {p.format.join(' / ')}</div>
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: p.color, alignSelf: 'center' }}>{window.SCHOOLS[p.school].tag}</div>
+            </label>
+          );
+        })}
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 24 }}>
+        <Field label="Format">
+          <select className="au-select" value={form.format} onChange={(e) => set('format', e.target.value)}>
+            <option>On campus</option><option>Online / global campus</option><option>Hybrid</option>
+          </select>
+        </Field>
+        <Field label="Intended start term">
+          <select className="au-select" value={form.start} onChange={(e) => set('start', e.target.value)}>
+            <option>Fall 2026</option><option>Spring 2027</option><option>Summer 2027</option>
+          </select>
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+function StepBackground({ form, set }) {
+  return (
+    <div>
+      <div className="au-bar-eyebrow">Step 3 of 4</div>
+      <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 28, margin: '12px 0 24px' }}>Academic background</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <Field label="Highest degree">
+          <select className="au-select" value={form.education} onChange={(e) => set('education', e.target.value)}>
+            <option>Associate</option><option>Bachelor</option><option>Master</option><option>Other</option>
+          </select>
+        </Field>
+        <Field label="GPA (optional)"><input className="au-input" placeholder="e.g. 3.6" value={form.gpa} onChange={(e) => set('gpa', e.target.value)} /></Field>
+        <Field label="Résumé / CV" span={2}>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '14px', border: '1px dashed #d9d9d9', borderRadius: 4, background: '#f5f5f5' }}>
+            <button className="au-btn au-btn-ghost-dark" onClick={(e) => { e.preventDefault(); set('resume', 'resume_2026.pdf'); }}>Choose file</button>
+            <span style={{ fontSize: 13, color: '#5a5659' }}>{form.resume}</span>
+          </div>
+        </Field>
+        <Field label="Personal statement (300 words)" span={2}>
+          <textarea className="au-textarea" rows={6} placeholder="Why Atlantis? What problem do you want to work on?" value={form.statement} onChange={(e) => set('statement', e.target.value)} />
+        </Field>
+      </div>
+    </div>
+  );
+}
+
+function StepReview({ form }) {
+  return (
+    <div>
+      <div className="au-bar-eyebrow">Step 4 of 4</div>
+      <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 28, margin: '12px 0 24px' }}>Review & submit</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, padding: '20px 0', borderTop: '1px solid #ececec' }}>
+        <ReviewRow label="Name" value={`${form.first} ${form.last}`.trim() || '—'} />
+        <ReviewRow label="Email" value={form.email || '—'} />
+        <ReviewRow label="Phone" value={form.phone || '—'} />
+        <ReviewRow label="Country" value={form.country} />
+        <ReviewRow label="Program" value={form.program} />
+        <ReviewRow label="Format" value={form.format} />
+        <ReviewRow label="Start term" value={form.start} />
+        <ReviewRow label="Education" value={form.education} />
+        <ReviewRow label="GPA" value={form.gpa || 'Not provided'} />
+        <ReviewRow label="Résumé" value={form.resume} />
+      </div>
+      <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginTop: 24, fontSize: 13.5, color: '#5a5659' }}>
+        <input type="checkbox" style={{ marginTop: 4, accentColor: '#ea1c24' }} />
+        <span>I agree to be contacted by an Atlantis University advisor about my application. I understand decisions are released on a rolling basis within 2–4 weeks.</span>
+      </label>
+    </div>
+  );
+}
+
+function ReviewRow({ label, value }) {
+  return (
+    <div>
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#8a8a8a' }}>{label}</div>
+      <div style={{ fontSize: 15, fontWeight: 600, color: '#231f20', marginTop: 4 }}>{value}</div>
+    </div>
+  );
+}
+
+window.ApplyPage = ApplyPage;
+  </script>
+
+  <script type="text/babel">
+// Pages.jsx — Admissions, Tuition, Why Atlantis, FLEX, Careers, International
+
+const { useState: useStatePages } = React;
+
+// === ADMISSIONS =============================================================
+function AdmissionsPage({ go }) {
+  const steps = [
+    { n: '01', title: 'Submit your application', body: 'Online, ~5 minutes. No fee through May 31.' },
+    { n: '02', title: 'Send transcripts & résumé', body: 'Upload directly or have your school mail them. International transcripts evaluated by WES.' },
+    { n: '03', title: 'Interview with an advisor', body: 'A 30-minute conversation — not an interrogation. We want to understand your goals.' },
+    { n: '04', title: 'Decision in 2–4 weeks', body: 'Rolling admissions. Submit early for priority merit aid.' },
+  ];
+  const reqs = [
+    ['Bachelor\'s degree (or equivalent international credential)', '✓'],
+    ['Cumulative GPA of 2.5 or higher', '✓'],
+    ['Two letters of recommendation', 'Recommended'],
+    ['Personal statement (300 words)', '✓'],
+    ['GRE / GMAT', 'Optional'],
+    ['English proficiency (TOEFL 80 / IELTS 6.5)', 'International'],
+  ];
+  return (
+    <div data-screen-label="Admissions" className="au-anim">
+      <SimpleHero eyebrow="Admissions" title={<>Direct.<br/>Personal.<br/>Rolling.</>} blurb="Atlantis admissions is built around conversation, not gatekeeping. We read every application." />
+      <section className="au-section">
+        <div className="au-container">
+          <div className="au-bar-eyebrow">How it works</div>
+          <h2 style={hh}>Four steps to Atlantean.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 32 }}>
+            {steps.map(s => (
+              <div key={s.n} style={{ background: '#fff', border: '1px solid #ececec', borderTop: '4px solid #ea1c24', padding: 24, borderRadius: 4 }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 44, color: '#ea1c24', lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 18, marginTop: 14 }}>{s.title}</div>
+                <p style={{ fontSize: 13.5, lineHeight: 1.55, color: '#5a5659', marginTop: 10 }}>{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="au-section" style={{ background: '#f5f5f5' }}>
+        <div className="au-container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
+          <div>
+            <div className="au-bar-eyebrow">Requirements</div>
+            <h2 style={hh}>What we need from you.</h2>
+            <div style={{ marginTop: 24, background: '#fff', borderRadius: 4, border: '1px solid #ececec' }}>
+              {reqs.map(([label, badge], i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 20px', borderBottom: i < reqs.length - 1 ? '1px solid #ececec' : 'none' }}>
+                  <div style={{ fontSize: 14.5, color: '#231f20' }}>{label}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: badge === '✓' ? '#30a049' : badge === 'Optional' ? '#8a8a8a' : '#ea1c24' }}>{badge}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="au-bar-eyebrow">Key dates · Fall 2026</div>
+            <h2 style={hh}>Deadlines.</h2>
+            <div style={{ marginTop: 24, display: 'grid', gap: 12 }}>
+              {[
+                ['Apr 15', 'Application opens', false],
+                ['Jun 01', 'Priority deadline · merit aid', true],
+                ['Jul 15', 'Final international deadline', false],
+                ['Aug 15', 'Final domestic deadline', false],
+                ['Sep 09', 'Classes begin', true],
+              ].map(([d, l, hot], i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr', gap: 18, padding: 18, background: hot ? '#ea1c24' : '#fff', color: hot ? '#fff' : '#231f20', borderRadius: 4, border: hot ? 'none' : '1px solid #ececec' }}>
+                  <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 22, lineHeight: 1, textTransform: 'uppercase' }}>{d}</div>
+                  <div style={{ fontWeight: 600, fontSize: 14.5 }}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <CTAStrip go={go} />
+    </div>
+  );
+}
+
+// === TUITION ================================================================
+function TuitionPage({ go }) {
+  const programs = Object.values(window.PROGRAMS);
+  const [selected, setSelected] = useStatePages(programs[0].id);
+  const p = window.PROGRAMS[selected];
+  const tuitionPerCredit = 980;
+  const total = parseInt(p.credits) * tuitionPerCredit;
+  const fees = 1450;
+  return (
+    <div data-screen-label="Tuition" className="au-anim">
+      <SimpleHero eyebrow="Tuition & aid" title={<>Honest pricing.<br/>Real aid.</>} blurb="No hidden fees, no inflated sticker prices. ~80% of Atlantis students receive some form of aid." />
+      <section className="au-section">
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Cost calculator</div>
+          <h2 style={hh}>What it costs.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 32, marginTop: 28 }}>
+            <div style={{ background: '#231f20', color: '#fff', padding: 32, borderRadius: 4 }}>
+              <div className="au-label" style={{ color: '#ea1c24' }}>Choose program</div>
+              <select className="au-select" value={selected} onChange={(e) => setSelected(e.target.value)} style={{ marginBottom: 24, color: '#231f20' }}>
+                {programs.map(pp => <option key={pp.id} value={pp.id}>{pp.name}</option>)}
+              </select>
+              <div style={{ display: 'grid', gap: 14, paddingTop: 18, borderTop: '1px solid #3d3a3b' }}>
+                <Row label="Tuition / credit hour" value={`$${tuitionPerCredit}`} />
+                <Row label="Total credits" value={p.credits} />
+                <Row label="Tuition (estimated)" value={`$${total.toLocaleString()}`} />
+                <Row label="Fees" value={`$${fees.toLocaleString()}`} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: 22, marginTop: 20, borderTop: '2px solid #ea1c24' }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 14, opacity: .8 }}>Estimated total</div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 56, color: '#ea1c24', lineHeight: 1 }}>${(total + fees).toLocaleString()}</div>
+              </div>
+              <div style={{ marginTop: 18, fontSize: 12.5, opacity: .7 }}>Before financial aid. Most Atlantean students see this number cut by 30–60%.</div>
+            </div>
+            <div style={{ display: 'grid', gap: 14, alignContent: 'start' }}>
+              <AidCard color="#ea1c24" name="Atlantean Merit Scholarship" amount="Up to $14,000 / yr" desc="Awarded automatically with your application based on academic record + statement." />
+              <AidCard color="#00abe9" name="Career Switcher Grant" amount="$8,000 one-time" desc="For applicants pivoting industries with 3+ years of professional experience." />
+              <AidCard color="#30a049" name="Bilingual Educator Award" amount="$6,000 / yr" desc="For M.Ed. students committed to bilingual classroom practice." />
+              <AidCard color="#fcb62b" name="Federal Aid (FAFSA)" amount="Loans + grants" desc="Atlantis is Title IV eligible. School code: 042001." />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="au-section" style={{ background: '#f5f5f5' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Payment options</div>
+          <h2 style={hh}>Three ways to pay.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 28 }}>
+            {[
+              { t: 'Per term', d: 'Pay tuition each term as you enroll. Standard option.' },
+              { t: 'Monthly plan', d: 'Spread payments across 10 months. 0% interest, $50 setup fee.' },
+              { t: 'Employer billing', d: 'Your employer is invoiced directly. We handle the paperwork.' },
+            ].map(o => (
+              <div key={o.t} className="au-card" style={{ padding: 26 }}>
+                <div style={{ height: 4, width: 36, background: '#ea1c24', marginBottom: 14 }} />
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22 }}>{o.t}</div>
+                <p style={{ fontSize: 14, color: '#5a5659', marginTop: 10 }}>{o.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CTAStrip go={go} />
+    </div>
+  );
+}
+function Row({ label, value }) { return (<div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}><span style={{ opacity: .7 }}>{label}</span><span style={{ fontWeight: 700 }}>{value}</span></div>); }
+function AidCard({ color, name, amount, desc }) {
+  return (
+    <div style={{ background: '#fff', padding: 22, border: '1px solid #ececec', borderLeft: `4px solid ${color}`, borderRadius: 4 }}>
+      <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 18 }}>{name}</div>
+      <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color, marginTop: 6 }}>{amount}</div>
+      <p style={{ fontSize: 13.5, color: '#5a5659', marginTop: 10, lineHeight: 1.55 }}>{desc}</p>
+    </div>
+  );
+}
+
+// === WHY ATLANTIS ===========================================================
+function WhyPage({ go }) {
+  const pillars = [
+    { t: "We're personal", d: "Cohorts are 24 or fewer. Your faculty know your name, your goals, and what's getting in your way." },
+    { t: "Career-built", d: "Programs designed with the industries that hire you. Capstones happen with real clients on real problems." },
+    { t: "Bilingual by design", d: "Spanish runs through Atlantis. Faculty teach in two languages because most of our students live in two." },
+    { t: "Global campus", d: "Online students get the same advisors, the same career services, the same alumni network. No second-class anything." },
+  ];
+  return (
+    <div data-screen-label="Why Atlantis" className="au-anim">
+      <section style={{ background: '#ea1c24', color: '#fff', padding: '110px 0 90px' }}>
+        <div className="au-container">
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(56px, 7vw, 110px)', lineHeight: 0.92, color: '#fff', maxWidth: 1000 }}>
+            "We're Atlantis University, the home of the non-conformists."
+          </div>
+          <div style={{ height: 4, width: 80, background: '#fff', marginTop: 36 }} />
+        </div>
+      </section>
+      <section className="au-section">
+        <div className="au-container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 56, marginBottom: 56 }}>
+            <div>
+              <div className="au-bar-eyebrow">Our promise</div>
+              <h2 style={hh}>Four pillars.<br/>One Atlantis.</h2>
+            </div>
+            <p style={{ fontSize: 19, lineHeight: 1.5, color: '#231f20' }}>
+              Atlantis isn't trying to be every school. We're a career-focused, tech-driven university for adults who already know what they want to do — and need a place that respects that.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+            {pillars.map((p, i) => (
+              <div key={p.t} style={{ background: '#fff', border: '1px solid #ececec', padding: 32, borderRadius: 4, position: 'relative' }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 100, color: '#f5f5f5', position: 'absolute', top: 8, right: 24, lineHeight: 1, userSelect: 'none' }}>{String(i + 1).padStart(2, '0')}</div>
+                <div className="au-bar-eyebrow">{p.t}</div>
+                <h3 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 28, lineHeight: 1.05, marginTop: 14 }}>{p.t}</h3>
+                <p style={{ fontSize: 15, lineHeight: 1.6, color: '#5a5659', marginTop: 14, position: 'relative' }}>{p.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="au-section" style={{ background: '#231f20', color: '#fff' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>The Miami Health District</div>
+          <h2 style={{ ...hh, color: '#fff' }}>Where you study matters.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40, marginTop: 32, alignItems: 'center' }}>
+            <p style={{ fontSize: 17, lineHeight: 1.6, color: '#d9d9d9' }}>
+              University Park sits less than two miles from Miami's Financial District and Arts District, and inside the Health District itself. Our students intern at Jackson Memorial in the morning and ship code at a fintech in the afternoon. The city is the second classroom.
+            </p>
+            <div style={{ height: 320, background: 'url(https://images.unsplash.com/photo-1535498730771-e735b998cd64?w=1000&q=80) center/cover', borderRadius: 4 }} />
+          </div>
+        </div>
+      </section>
+      <CTAStrip go={go} />
+    </div>
+  );
+}
+
+// === FLEX (Study Options) ===================================================
+function FlexPage({ go }) {
+  const [format, setFormat] = useStatePages('campus');
+  const [pace, setPace] = useStatePages('full');
+  const formats = [
+    { id: 'campus', name: 'On Campus', d: 'In-person at University Park. Best if you live in or near Miami.', color: '#ea1c24' },
+    { id: 'online', name: 'Global Campus', d: 'Live online via Zoom + Teams. Same faculty, same cohort, anywhere.', color: '#00abe9' },
+    { id: 'hybrid', name: 'Hybrid', d: 'Two weekends/month on campus, the rest online. Built for working pros.', color: '#fcb62b' },
+  ];
+  const paces = [
+    { id: 'full', name: 'Full-time', d: '12+ credits/term · graduate in 16–20 months', months: '~18 mo' },
+    { id: 'part', name: 'Part-time', d: '6–9 credits/term · graduate in 28–36 months', months: '~32 mo' },
+    { id: 'eve', name: 'Evening', d: 'Classes 6–9pm M/W or T/Th · designed for full-time workers', months: '~28 mo' },
+    { id: 'acc', name: 'Accelerated', d: '8-week intensive terms · graduate in 12 months', months: '~12 mo' },
+  ];
+  const f = formats.find(x => x.id === format);
+  const pc = paces.find(x => x.id === pace);
+  return (
+    <div data-screen-label="FLEX" className="au-anim">
+      <section style={{ background: '#231f20', color: '#fff', padding: '90px 0 70px' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>Study Options · FLEX</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(48px, 6vw, 84px)', lineHeight: 0.95, color: '#fff', margin: '14px 0 0' }}>
+            Build your<br/>own path.
+          </h1>
+          <p style={{ fontSize: 18, color: '#d9d9d9', marginTop: 22, maxWidth: 620 }}>
+            FLEX lets you mix format and pace. On campus, online, or both. Full-time, part-time, evening, or accelerated. Whatever fits your life — we built it.
+          </p>
+        </div>
+      </section>
+
+      <section className="au-section">
+        <div className="au-container">
+          <div className="au-bar-eyebrow">01 · Pick a format</div>
+          <h2 style={hh}>Where do you want to study?</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 24 }}>
+            {formats.map(opt => {
+              const active = format === opt.id;
+              return (
+                <button key={opt.id} onClick={() => setFormat(opt.id)} style={{
+                  textAlign: 'left', cursor: 'pointer', background: active ? opt.color : '#fff', color: active ? '#fff' : '#231f20',
+                  padding: 28, border: `2px solid ${active ? opt.color : '#ececec'}`, borderRadius: 4, fontFamily: "'Open Sans', sans-serif",
+                }}>
+                  <div style={{ height: 4, width: 36, background: active ? '#fff' : opt.color, marginBottom: 16 }} />
+                  <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 26, lineHeight: 1 }}>{opt.name}</div>
+                  <p style={{ fontSize: 14, lineHeight: 1.55, marginTop: 12, opacity: active ? .9 : 1, color: active ? '#fff' : '#5a5659' }}>{opt.d}</p>
+                </button>
+              );
+            })}
+          </div>
+
+          <div style={{ marginTop: 56 }}>
+            <div className="au-bar-eyebrow">02 · Pick a pace</div>
+            <h2 style={hh}>How fast do you want to finish?</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginTop: 24 }}>
+              {paces.map(opt => {
+                const active = pace === opt.id;
+                return (
+                  <button key={opt.id} onClick={() => setPace(opt.id)} style={{
+                    textAlign: 'left', cursor: 'pointer', background: active ? '#231f20' : '#fff', color: active ? '#fff' : '#231f20',
+                    padding: 22, border: `2px solid ${active ? '#231f20' : '#ececec'}`, borderRadius: 4,
+                  }}>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 28, color: active ? '#ea1c24' : '#ea1c24', lineHeight: 1 }}>{opt.months}</div>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 18, marginTop: 10 }}>{opt.name}</div>
+                    <p style={{ fontSize: 12.5, lineHeight: 1.5, marginTop: 8, color: active ? '#d9d9d9' : '#5a5659' }}>{opt.d}</p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div style={{ marginTop: 56, background: f.color, color: '#fff', padding: 36, borderRadius: 4, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center' }}>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', opacity: .9 }}>Your plan</div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 40, lineHeight: 1, marginTop: 12 }}>{f.name} · {pc.name}</div>
+              <p style={{ fontSize: 16, marginTop: 16, opacity: .92, maxWidth: 460 }}>You'll graduate in approximately <strong>{pc.months}</strong>. {pc.d}</p>
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+              <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-dark">Apply with this plan →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// === CAREERS ================================================================
+function CareersPage({ go }) {
+  const stories = [
+    { name: 'Andrea M.', role: 'Senior PM at Visa', program: 'MBA · 2024', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80', quote: "I came in as a project coordinator. Atlantis taught me to make calls, not just take notes." },
+    { name: 'Devin R.', role: 'ML Engineer at Magic Leap', program: 'MS in AI · 2025', img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&q=80', quote: "The capstone was a real client. I had a job before I had a diploma." },
+    { name: 'Sofia G.', role: 'Lead Teacher · Miami-Dade', program: 'M.Ed. · 2025', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80', quote: "AU treats teaching like the design discipline it is. I redesign my classroom every term." },
+  ];
+  return (
+    <div data-screen-label="Careers" className="au-anim">
+      <SimpleHero eyebrow="Career outcomes" title={<>The work<br/>after the work.</>} blurb="We don't graduate students. We graduate professionals — with the network, the portfolio, and the title to prove it." />
+      <section className="au-section">
+        <div className="au-container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, background: '#231f20', color: '#fff', borderRadius: 4 }}>
+            {[['94%', 'Hired within 6 months'], ['$118k', 'Median starting salary'], ['71%', 'Promoted within 2 years'], ['340+', 'Hiring partners']].map(([v, l], i) => (
+              <div key={i} style={{ padding: 32, borderLeft: i === 0 ? 'none' : '1px solid #3d3a3b' }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 56, lineHeight: 1, color: '#ea1c24' }}>{v}</div>
+                <div style={{ height: 3, width: 32, background: '#fff', margin: '14px 0' }} />
+                <div style={{ fontSize: 13, color: '#d9d9d9', lineHeight: 1.4 }}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="au-section" style={{ background: '#f5f5f5', paddingTop: 0 }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Alumni</div>
+          <h2 style={hh}>Where they are now.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 28 }}>
+            {stories.map(s => (
+              <div key={s.name} style={{ background: '#fff', borderRadius: 4, overflow: 'hidden', border: '1px solid #ececec' }}>
+                <div style={{ height: 280, background: `url(${s.img}) center/cover`, filter: 'grayscale(1) contrast(1.05)' }} />
+                <div style={{ padding: 22 }}>
+                  <div style={{ fontWeight: 700, fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: '#ea1c24' }}>{s.program}</div>
+                  <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 22, marginTop: 10 }}>{s.name}</div>
+                  <div style={{ fontSize: 13, color: '#5a5659', marginTop: 4 }}>{s.role}</div>
+                  <p style={{ fontSize: 14, lineHeight: 1.55, color: '#231f20', marginTop: 16, fontStyle: 'italic' }}>"{s.quote}"</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="au-section">
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Hiring partners</div>
+          <h2 style={hh}>Who hires Atlanteans.</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 28 }}>
+            {['Royal Caribbean', 'Visa', 'AmEx', 'Magic Leap', 'Lennar', 'Carnival', 'Ryder', 'NextEra', 'Jackson Health', 'Miami-Dade Public Schools', 'KIPP', 'Boston Dynamics', 'Bacardi', 'Univision', 'JPMorgan', 'Citadel'].map(e => (
+              <div key={e} style={{ padding: '14px 22px', background: '#f5f5f5', borderRadius: 4, fontWeight: 600, fontSize: 14 }}>{e}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="au-section" style={{ background: '#231f20', color: '#fff' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>Career services</div>
+          <h2 style={{ ...hh, color: '#fff' }}>Yours for life.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 28 }}>
+            {[
+              ['1:1 career coaching', 'Pair with an industry coach in your field. Yours from day one — and after graduation.'],
+              ['Portfolio reviews', 'Monthly portfolio + résumé clinics with employer partners.'],
+              ['Direct intros', 'We make warm intros to hiring managers in our network. Not a job board — a phone call.'],
+            ].map(([t, d]) => (
+              <div key={t} style={{ background: '#3d3a3b', padding: 26, borderRadius: 4, borderTop: '4px solid #ea1c24' }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 20 }}>{t}</div>
+                <p style={{ fontSize: 14, color: '#d9d9d9', marginTop: 10, lineHeight: 1.55 }}>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CTAStrip go={go} />
+    </div>
+  );
+}
+
+// === INTERNATIONAL ==========================================================
+function InternationalPage({ go }) {
+  return (
+    <div data-screen-label="International" className="au-anim">
+      <section style={{ background: '#231f20', color: '#fff', padding: '90px 0 70px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'url(https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1800&q=80) center/cover', opacity: .35 }} />
+        <div className="au-container" style={{ position: 'relative' }}>
+          <div className="au-bar-eyebrow" style={{ color: '#ea1c24' }}>International students</div>
+          <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(48px, 6vw, 88px)', lineHeight: 0.95, color: '#fff', margin: '14px 0 0' }}>
+            38 languages.<br/>One Atlantis.
+          </h1>
+          <p style={{ fontSize: 18, color: '#d9d9d9', marginTop: 22, maxWidth: 640 }}>
+            Atlantis is a Miami university — which means we are, by definition, an international university. 1 in 3 students holds an international passport.
+          </p>
+        </div>
+      </section>
+      <section className="au-section">
+        <div className="au-container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
+            <div>
+              <div className="au-bar-eyebrow">Visa & I-20</div>
+              <h2 style={hh}>SEVP-certified.</h2>
+              <p style={{ fontSize: 16, lineHeight: 1.6, color: '#231f20', marginTop: 16 }}>
+                Atlantis is approved by the Student and Exchange Visitor Program (SEVP) to issue Form I-20 for F-1 student visas. Our international advisors guide you from acceptance through arrival.
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0 0' }}>
+                {['I-20 issued within 5 business days of deposit', 'CPT eligible after 9 months', '1 year OPT + 24-month STEM extension (AI program)', 'On-campus employment from day one'].map(item => (
+                  <li key={item} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: '1px solid #ececec', fontSize: 14.5 }}>
+                    <span style={{ color: '#ea1c24', fontWeight: 700 }}>→</span> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="au-bar-eyebrow">English support</div>
+              <h2 style={hh}>Language Institute.</h2>
+              <p style={{ fontSize: 16, lineHeight: 1.6, color: '#231f20', marginTop: 16 }}>
+                Below the TOEFL minimum? Our Language Institute runs intensive 8-week and 16-week tracks, with conditional admission to your degree program upon completion.
+              </p>
+              <div style={{ background: '#702e84', color: '#fff', padding: 22, borderRadius: 4, marginTop: 22 }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 20 }}>Bilingual is not a fallback.</div>
+                <p style={{ fontSize: 13.5, marginTop: 10, opacity: .95 }}>It's the design philosophy. Half of our faculty teach in two languages. Most of our students live in two.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="au-section" style={{ background: '#f5f5f5' }}>
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Where Atlanteans come from</div>
+          <h2 style={hh}>Top countries · 2025–26 cohort.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginTop: 28 }}>
+            {[['Colombia', 18], ['Venezuela', 14], ['Brazil', 11], ['Mexico', 9], ['Argentina', 7], ['Peru', 5], ['Spain', 4], ['India', 4]].map(([c, pct]) => (
+              <div key={c} style={{ background: '#fff', padding: 20, borderRadius: 4, border: '1px solid #ececec' }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 36, color: '#ea1c24', lineHeight: 1 }}>{pct}%</div>
+                <div style={{ fontSize: 14, fontWeight: 600, marginTop: 8 }}>{c}</div>
+                <div style={{ height: 4, background: '#f5f5f5', marginTop: 10, borderRadius: 999, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', background: '#ea1c24', width: `${pct * 4}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="au-section">
+        <div className="au-container">
+          <div className="au-bar-eyebrow">Cost & aid</div>
+          <h2 style={hh}>International funding.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginTop: 28 }}>
+            {[
+              ['Global Atlantean Award', '$10,000 / yr', 'Merit-based, automatic with application.'],
+              ['Latin America Scholarship', '$8,000 / yr', 'For students from LATAM countries.'],
+              ['Sallie Mae International Loan', 'Co-signer in US', 'Through our partner lender.'],
+            ].map(([n, a, d]) => (
+              <div key={n} style={{ background: '#fff', padding: 26, borderRadius: 4, border: '1px solid #ececec', borderTop: '4px solid #ea1c24' }}>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 20 }}>{n}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#ea1c24', marginTop: 8 }}>{a}</div>
+                <p style={{ fontSize: 13.5, color: '#5a5659', marginTop: 10, lineHeight: 1.55 }}>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <CTAStrip go={go} />
+    </div>
+  );
+}
+
+// === Shared bits ============================================================
+const hh = { fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 40, lineHeight: 1, margin: '14px 0 0', color: '#231f20' };
+
+function SimpleHero({ eyebrow, title, blurb }) {
+  return (
+    <section style={{ background: '#fff', padding: '80px 0 50px', borderBottom: '1px solid #ececec' }}>
+      <div className="au-container">
+        <div className="au-bar-eyebrow">{eyebrow}</div>
+        <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(48px, 5.5vw, 80px)', lineHeight: 0.95, color: '#231f20', margin: '14px 0 0' }}>{title}</h1>
+        <div className="au-rule-thick" />
+        <p style={{ fontSize: 18, lineHeight: 1.55, color: '#5a5659', maxWidth: 640 }}>{blurb}</p>
+      </div>
+    </section>
+  );
+}
+
+function CTAStrip({ go }) {
+  return (
+    <section style={{ background: '#ea1c24', color: '#fff', padding: '60px 0' }}>
+      <div className="au-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
+        <div style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', fontSize: 32, lineHeight: 1 }}>
+          Ready when you are.
+        </div>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('apply'); }} className="au-btn au-btn-inverse">Apply now →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('admissions'); }} className="au-btn au-btn-ghost-light">Admissions</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+window.AdmissionsPage = AdmissionsPage;
+window.TuitionPage = TuitionPage;
+window.WhyPage = WhyPage;
+window.FlexPage = FlexPage;
+window.CareersPage = CareersPage;
+window.InternationalPage = InternationalPage;
+  </script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "heroVariant": "photo",
+      "showFinder": true,
+      "schoolColorIntensity": "medium",
+      "density": "comfortable"
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [route, setRoute] = useState('home');
+      const [search, setSearch] = useState('');
+      const [tweaks, setTweaks] = useTweaks(TWEAK_DEFAULTS);
+
+      const go = (r) => {
+        setRoute(r);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      };
+
+      let body = null;
+      if (route === 'home') body = <HomePage go={go} tweaks={tweaks} />;
+      else if (route === 'programs') body = <ProgramsPage go={go} />;
+      else if (route.startsWith('program:')) body = <ProgramDetailPage id={route.split(':')[1]} go={go} />;
+      else if (route === 'apply') body = <ApplyPage go={go} />;
+      else if (route === 'admissions') body = <AdmissionsPage go={go} />;
+      else if (route === 'tuition') body = <TuitionPage go={go} />;
+      else if (route === 'why') body = <WhyPage go={go} />;
+      else if (route === 'flex') body = <FlexPage go={go} />;
+      else if (route === 'careers') body = <CareersPage go={go} />;
+      else if (route === 'international') body = <InternationalPage go={go} />;
+      else body = <div style={{ padding: '120px 32px', textAlign: 'center', fontFamily: "'Open Sans', sans-serif" }}>
+        <div className="au-bar-eyebrow" style={{ justifyContent: 'center' }}>404</div>
+        <h1 style={{ fontFamily: "'Oswald', sans-serif", textTransform: 'uppercase', fontSize: 56, marginTop: 14 }}>Page under construction</h1>
+        <a href="#" onClick={(e) => { e.preventDefault(); go('home'); }} className="au-btn au-btn-primary" style={{ marginTop: 24 }}>Back to home →</a>
+      </div>;
+
+      const densityScale = tweaks.density === 'compact' ? 0.88 : 1;
+
+      return (
+        <div style={{ fontSize: `${densityScale}rem` }}>
+          <Header route={route} go={go} search={search} setSearch={setSearch} />
+          {body}
+          <Footer go={go} />
+          <TweaksPanel title="Tweaks">
+            <TweakSection title="Home hero">
+              <TweakRadio
+                label="Variant"
+                value={tweaks.heroVariant}
+                onChange={(v) => setTweaks('heroVariant', v)}
+                options={[
+                  { value: 'photo', label: 'Photo' },
+                  { value: 'red', label: 'Red' },
+                  { value: 'split', label: 'Split' },
+                ]}
+              />
+              <TweakToggle
+                label="Course finder"
+                value={tweaks.showFinder}
+                onChange={(v) => setTweaks('showFinder', v)}
+              />
+            </TweakSection>
+            <TweakSection title="Layout">
+              <TweakRadio
+                label="Density"
+                value={tweaks.density}
+                onChange={(v) => setTweaks('density', v)}
+                options={[
+                  { value: 'comfortable', label: 'Comfortable' },
+                  { value: 'compact', label: 'Compact' },
+                ]}
+              />
+            </TweakSection>
+            <TweakSection title="Quick jump">
+              <div style={{ display: 'grid', gap: 6 }}>
+                {[['home','Home'],['programs','Programs'],['program:mba','MBA'],['program:ai','MS in AI'],['program:education','M.Ed.'],['apply','Apply'],['admissions','Admissions'],['tuition','Tuition'],['why','Why Atlantis'],['flex','Study Options'],['careers','Careers'],['international','International']].map(([r,l]) => (
+                  <button key={r} onClick={() => go(r)} style={{
+                    textAlign: 'left', padding: '8px 10px', fontFamily: "'Open Sans', sans-serif", fontSize: 12,
+                    border: '1px solid #ececec', background: route === r ? '#231f20' : '#fff', color: route === r ? '#fff' : '#231f20',
+                    borderRadius: 4, cursor: 'pointer', fontWeight: 600,
+                  }}>{l}</button>
+                ))}
+              </div>
+            </TweakSection>
+          </TweaksPanel>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
